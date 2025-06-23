@@ -1,0 +1,24 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    
+    <div class="row mt-15">
+        <label class="control-label col-xs-12 col-sm-2">调整等级:</label>
+        <div class="col-xs-12 col-sm-4">
+            <input id="c-xylease_level_id" data-source="xylease/level/index" class="form-control selectpage" name="row[xylease_level_id]" type="text" value="">
+        </div>
+        <label class="control-label col-xs-12 col-sm-6" style="text-align: left;">不选择调为默认无等级</label>
+    </div>
+   
+    
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>
+
+<style>
+    .mt-15{margin-top: 15px;}
+</style>

@@ -1,0 +1,168 @@
+
+<div class="panel panel-default panel-intro">
+    
+    <div class="panel-heading">
+        {:build_heading(null,FALSE)}
+        <ul class="nav nav-tabs" data-field="type">
+            <li class="active"><a href="#t-all" data-value="" data-toggle="tab">{:__('All')}</a></li>
+            {foreach name="typeList" item="vo"}
+            <li><a href="#t-{$key}" data-value="{$key}" data-toggle="tab">{$vo}</a></li>
+            {/foreach}
+        </ul>
+    </div>
+    <div class="panel-body">
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade active in" id="one">
+                <div class="widget-body no-padding">
+                    <div id="toolbar" class="toolbar">
+                        <a href="javascript:;" class="btn btn-primary btn-refresh" title="{:__('Refresh')}" ><i class="fa fa-refresh"></i> </a>
+                        <div id="btn-appstyle" class="btn btn-danger btn-sm"><i class="fa fa-creative-commons"></i> 通用配置</div>
+						<a href="javascript:;" 
+						data-area=["500px","500px"] 
+						class="btn btn-success btn-add {:$auth->check('xylease/page/add')?'':'hide'}"
+						title="{:__('新建模板')}" ><i class="fa fa-plus"></i> {:__('新建模板')}</a>
+                        <a class="btn btn-success btn-recyclebin btn-dialog {:$auth->check('xylease/page/recyclebin')?'':'hide'}" href="xylease/page/recyclebin" title="{:__('Recycle bin')}"><i class="fa fa-recycle"></i> {:__('Recycle bin')}</a>
+						<a class="tips">
+							<i class="fa fa-warning"></i> 温馨提示：模板保存之后需要发布才能生效,未使用模板的页面均使用通用配置，前端没有实时更新后台清除一下缓存。
+						</a>
+                    </div>
+                    
+                    <table id="table" class="table table-striped table-hover" width="100%"> </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="itemtpl" type="text/html">
+	<div class="col-xs-12 col-xs-3">
+		<div class="xylease_tem">
+			<div class="main">
+				<div class="bg">
+					<img src="<%=cdnurl(item.cover)%>">
+				</div>
+				<div class="mask"></div>
+				<div class="operate">
+					<div class="text-center">
+						<div class="">
+							<a href="#" class="btn btn-xs1 btn-info btn-use" data-id="<%=item.id%>"><i class="fa fa-telegram"></i> 发布</a>
+							<a href="#" class="btn btn-xs1 btn-primary btn-edit" data-id="<%=item.id%>"><i class="fa fa-pencil"></i> 装修</a>
+							<a href="#" class="btn btn-xs1 btn-danger btn-del" data-id="<%=item.id%>"><i class="fa fa-times"></i> 删除</a>
+						</div>
+					</div>
+				</div>
+				<div class="info">
+					<small class="label bg-blue"><%=item.name%></small> 
+				</div>
+
+                <div class="use">
+                    <small class="label right bg-red"><%=item.is_use == 1 ?'已发布':'未发布'%></small>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+
+<style type="text/css">
+    .tips{color: red;padding: 10px;}
+	.table .row{
+		margin: 0;
+	}
+	.xylease_tem {
+		position: relative;
+		width: 360px;
+        height: 755px;
+		margin-top: 10px;
+		margin-right: 15px;
+		margin-bottom: 5px;
+		border-radius: 10px;
+		padding: 10px;
+		background-color: #e6e6e6;
+        overflow: hidden;
+	}
+	
+	.xylease_tem .main {
+		position: relative;
+		height: 100%;
+		overflow: hidden;
+		border-radius: 5px;
+		background-color: #ffffff;
+	}
+	.xylease_tem .main .bg{
+		width: 100%;
+	}
+	.xylease_tem .main .bg img{
+		width: 100%;
+		min-height: 400px;
+	}
+	.xylease_tem .main .mask{
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 2;
+	}
+	
+	.xylease_tem .main:hover .mask
+	{
+		background-color: rgba(0,0,0,.6);
+	}
+	
+	.xylease_tem .main:hover .qrcode {
+		top: 56px
+	}
+	.xylease_tem .main .qrcode {
+		position: absolute;
+		left: 50%;
+		margin-left: -70px;
+		width: 140px;
+		height: 140px;
+		border-radius: 3px;
+		background: #fff;
+		top: -140px;
+		z-index: 5;
+		overflow: hidden;
+		transform-origin: center center;
+		transform: scale(0.9109);
+		transition: top .3s
+	}
+	.xylease_tem .main .qrcode img {
+		width: 100%;
+		height: 100%;
+	}
+	.xylease_tem .main:hover .operate{
+		display: flex;
+	}
+	.xylease_tem .main .operate{
+		position: absolute;
+		top: 200px;
+		left: 0;
+		width: 100%;
+		display: none;
+		justify-content: center;
+		z-index: 3;
+	}
+	.xylease_tem .main .operate .btn + .btn{
+		margin-left: 5px;
+	}
+	.xylease_tem .main .operate .title{
+		margin-bottom: 12px;
+		font-size: 14px;
+		color: #ffffff;
+	}
+	
+	
+	.xylease_tem .main .info{
+		position: absolute;
+		top: 10px;
+		left: 10px;
+	}
+
+    .xylease_tem .main .use{
+		position: absolute;
+		top: 10px;
+		right: 10px;
+	}
+	
+</style>

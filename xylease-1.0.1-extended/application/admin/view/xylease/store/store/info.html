@@ -1,0 +1,112 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">基础信息</div>
+        <div class="panel-body">
+            <div class="row mt-15">
+                <label class="control-label col-xs-12 col-sm-2">{:__('Name')}:</label>
+                <div class="col-xs-12 col-sm-4">
+                    <input id="c-name" data-rule="required" class="form-control" name="row[name]" type="text" value="{$row.name|htmlentities}">
+                </div>
+                <label class="control-label col-xs-12 col-sm-1">{:__('Businesshours')}:</label>
+                <div class="col-xs-12 col-sm-4">
+                    <input id="c-businesshours" data-rule="required" class="form-control" name="row[businesshours]" type="text" value="{$row.businesshours|htmlentities}">
+                </div>
+            </div>
+            <div class="row mt-15">
+                <label class="control-label col-xs-12 col-sm-2">{:__('Phone')}:</label>
+                <div class="col-xs-12 col-sm-4">
+                    <input id="c-phone" data-rule="required" class="form-control" name="row[phone]" type="text" value="{$row.phone|htmlentities}">
+                </div>
+                <label class="control-label col-xs-12 col-sm-1">{:__('Weixin')}:</label>
+                <div class="col-xs-12 col-sm-4">
+                    <input id="c-weixin" data-rule="required" class="form-control" name="row[weixin]" type="text" value="{$row.weixin|htmlentities}">
+                </div>
+            </div>
+            <div class="row mt-15">
+                <label class="control-label col-xs-12 col-sm-2">{:__('Address')}:</label>
+                <div class="col-xs-12 col-sm-4">
+                    <input id="c-address" data-rule="required" class="form-control" name="row[address]" type="text" value="{$row.address|htmlentities}">
+                </div>
+                <label class="control-label col-xs-12 col-sm-1">{:__('经纬度')}:</label>
+                <div class="col-xs-12 col-sm-3" style="display: flex;flex-wrap: nowrap;">
+                    <input id="c-latitude" data-rule="required" class="form-control" name="row[latitude-longitude]" type="text" value="{$row.latitude|htmlentities},{$row.longitude|htmlentities}">
+                </div>
+                <label class="control-label col-xs-12 col-sm-1"><a href="https://lbs.qq.com/getPoint/" target="_blank" style="line-height: 34px;">获取经纬度</a></label>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">介绍信息</div>
+        <div class="panel-body">
+            <div class="row mt-15">
+                <label class="control-label col-xs-12 col-sm-2">{:__('Logo')}:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <div class="input-group">
+                        <input id="c-logo" data-rule="required" class="form-control" name="row[logo]" type="text" value="{$row.logo|htmlentities}">
+                        <div class="input-group-addon no-border no-padding">
+                            <span><button type="button" id="faupload-logo" class="btn btn-danger faupload" data-input-id="c-logo" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-preview-id="p-logo"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                            <span><button type="button" id="fachoose-logo" class="btn btn-primary fachoose" data-input-id="c-logo" data-mimetype="image/*"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                        </div>
+                        <span class="msg-box n-right" for="c-logo"></span>
+                    </div>
+                    <ul class="row list-inline faupload-preview" id="p-logo"></ul>
+                </div>
+                <label class="control-label col-xs-12 col-sm-2">尺寸：200px * 200px</label>
+            </div>
+            
+            <div class="row mt-15">
+                
+                <label class="control-label col-xs-12 col-sm-2">{:__('Images')}:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <div class="input-group">
+                        <input id="c-images" data-rule="required" class="form-control" size="50" name="row[images]" type="textarea" value="{$row.images|htmlentities}">
+                        <div class="input-group-addon no-border no-padding">
+                            <span><button type="button" id="faupload-images" class="btn btn-danger faupload" data-input-id="c-images" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="true" data-preview-id="p-images"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                            <span><button type="button" id="fachoose-images" class="btn btn-primary fachoose" data-input-id="c-images" data-mimetype="image/*" data-multiple="true"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                        </div>
+                        <span class="msg-box n-right" for="c-images"></span>
+                    </div>
+                    <ul class="row list-inline faupload-preview" id="p-images"></ul>
+                </div>
+                <label class="control-label col-xs-12 col-sm-2">尺寸：750px * 430px</label>
+            </div>
+            <div class="row mt-15">
+                
+                <label class="control-label col-xs-12 col-sm-2">{:__('介绍视频')}:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <div class="input-group">
+                        <input id="c-videofile" class="form-control" size="50" name="row[videofile]" type="text" value="{$row.videofile|htmlentities}">
+                        <div class="input-group-addon no-border no-padding">
+                            <span><button type="button" id="faupload-videofile" class="btn btn-danger faupload" data-input-id="c-videofile" data-multiple="false" data-preview-id="p-videofile"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                            <span><button type="button" id="fachoose-videofile" class="btn btn-primary fachoose" data-input-id="c-videofile" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                        </div>
+                        <span class="msg-box n-right" for="c-videofile"></span>
+                    </div>
+                    <ul class="row list-inline faupload-preview" id="p-videofile"></ul>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">{:__('Content')}:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <textarea id="c-content" class="form-control editor" rows="5" name="row[content]" cols="50">{$row.content|htmlentities}</textarea>
+                </div>
+            </div>
+        </div>
+       
+        
+    </div>
+    
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+        </div>
+    </div>
+</form>
+
+<style>
+    .mt-15{margin-bottom: 15px;padding: 0;}
+</style>

@@ -1,0 +1,264 @@
+ /**
+  * 
+  * 全局样式表 
+  * @author 湖南行云网络
+  * 
+  **/
+  
+page {font-size: 30rpx;}
+
+.ovh{overflow: hidden;}
+.wa{width: 100%;}
+
+/* --------------------图片-------------------- */
+image{vertical-align: middle;max-width: 100%;}
+
+/* ----------------文本----------------- */
+.ts-24 {font-size: 24rpx;}
+.ts-26 {font-size: 26rpx;}
+.ts-28 {font-size: 28rpx;}
+.ts-30 {font-size: 30rpx;}
+.ts-32 {font-size: 32rpx;}
+.ts-34 {font-size: 34rpx;}
+.ts-36 {font-size: 36rpx;}
+.ts-38 {font-size: 38rpx;}
+.ts-40 {font-size: 40rpx;}
+.ts-42 {font-size: 42rpx;}
+.ts-44 {font-size: 44rpx;}
+.ts-46 {font-size: 46rpx;}
+.ts-48 {font-size: 48rpx;}
+.ts-50 {font-size: 50rpx;}
+.ts-60 {font-size: 60rpx;}
+.ts-70 {font-size: 70rpx;}
+.ts-80 {font-size: 80rpx;}
+
+.tb {font-weight: bold;}
+.tn {font-weight: normal;}
+.tc {text-align: center;}
+.tl {text-align: left;}
+.tr {text-align: right; }
+.tdl{text-decoration: line-through;}
+
+
+.tc-w{color: #ffffff;}
+.tc-blue{color: #148ae2;}
+.tc-b{color: #282828;}
+
+.bc-y{background-color: #c9cbcb;}
+
+/* --------------------布局-------------------- */
+.flex {display: flex;flex-wrap: wrap;}
+.col-1{width: 100%;}
+.col-2{width: 50%;}
+.col-3{width: 33.33%;}
+.col-4{width: 25%;}
+.col-5{width: 20%;}
+.col-6{width: 16.6%;}
+.col-7{width: 14.2%;}
+.just-sb {justify-content: space-between;}
+.ali-cen {align-items: center;}
+
+.psr{position: relative;}
+.psa{position: absolute;}
+
+/* ------------------边框------------------ */
+.bl{border:solid 2rpx;}
+.bl-t{border-top:solid 2rpx;}
+.bl-b{border-bottom:solid 2rpx;}
+.bl-l{border-left:solid 2rpx;}
+.bl-r{border-right:solid 2rpx;}
+
+/* ------------------内外边距------------------ */
+.m-0 {margin: 0;}
+.m-5 {margin: 5rpx;}
+.m-10 {margin: 10rpx;}
+.m-15 {margin: 15rpx;}
+.m-20 {margin: 20rpx;}
+.m-25 {margin: 25rpx;}
+.m-30 {margin: 30rpx;}
+.m-40 {margin: 40rpx;}
+.m-50 {margin: 50rpx;}
+
+.m-l-5 {margin-left: 5rpx;}
+.m-l-10 {margin-left: 10rpx;}
+.m-l-15 {margin-left: 15rpx;}
+.m-l-20 {margin-left: 20rpx;}
+.m-l-25 {margin-left: 25rpx;}
+.m-l-30 {margin-left: 30rpx;}
+.m-l-40 {margin-left: 40rpx;}
+.m-l-50 {margin-left: 50rpx;}
+.m-l-auto {margin-left: auto;}
+
+.m-r-5 {margin-right: 5rpx;}
+.m-r-10 {margin-right: 10rpx;}
+.m-r-15 {margin-right: 15rpx;}
+.m-r-20 {margin-right: 20rpx;}
+.m-r-25 {margin-right: 25rpx;}
+.m-r-30 {margin-right: 30rpx;}
+.m-r-40 {margin-right: 40rpx;}
+.m-r-50 {margin-right: 50rpx;}
+
+.m-t-5 {margin-top: 5rpx;}
+.m-t-10 {margin-top: 10rpx;}
+.m-t-15 {margin-top: 15rpx;}
+.m-t-20 {margin-top: 20rpx;}
+.m-t-25 {margin-top: 25rpx;}
+.m-t-30 {margin-top: 30rpx;}
+.m-t-40 {margin-top: 40rpx;}
+.m-t-50 {margin-top: 50rpx;}
+.m-t-60 {margin-top: 60rpx;}
+
+.m-b-2 {margin-bottom: 2rpx;}
+.m-b-10 {margin-bottom: 10rpx;}
+.m-b-15 {margin-bottom: 15rpx;}
+.m-b-20 {margin-bottom: 20rpx;}
+.m-b-25 {margin-bottom: 25rpx;}
+.m-b-30 {margin-bottom: 30rpx;}
+.m-b-40 {margin-bottom: 40rpx;}
+.m-b-50 {margin-bottom: 50rpx;}
+
+.m-lr-10 {margin-left: 10rpx;margin-right: 10rpx;}
+.m-lr-15 {margin-left: 15rpx;margin-right: 15rpx;}
+.m-lr-20 {margin-left: 20rpx;margin-right: 20rpx;}
+.m-lr-25 {margin-left: 25rpx;margin-right: 25rpx;}
+.m-lr-30 {margin-left: 30rpx;margin-right: 30rpx;}
+.m-lr-40 {margin-left: 40rpx;margin-right: 40rpx;}
+.m-lr-50 {margin-left: 50rpx;margin-right: 50rpx;}
+
+.m-tb-10 {margin-top: 10rpx;margin-bottom: 10rpx;}
+.m-tb-15 {margin-top: 15rpx;margin-bottom: 15rpx;}
+.m-tb-20 {margin-top: 20rpx;margin-bottom: 20rpx;}
+.m-tb-25 {margin-top: 25rpx;margin-bottom: 25rpx;}
+.m-tb-30 {margin-top: 30rpx;margin-bottom: 30rpx;}
+.m-tb-40 {margin-top: 40rpx;margin-bottom: 40rpx;}
+.m-tb-50 {margin-top: 50rpx;margin-bottom: 50rpx;}
+
+.p-10 {padding: 10rpx;}
+.p-15 {padding: 15rpx;}
+.p-20 {padding: 20rpx;}
+.p-25 {padding: 25rpx;}
+.p-30 {padding: 30rpx;}
+.p-40 {padding: 40rpx;}
+.p-50 {padding: 50rpx;}
+
+.p-l-10 {padding-left: 10rpx;}
+.p-l-15 {padding-left: 15rpx;}
+.p-l-20 {padding-left: 20rpx;}
+.p-l-25 {padding-left: 25rpx;}
+.p-l-30 {padding-left: 30rpx;}
+.p-l-40 {padding-left: 40rpx;}
+.p-l-50 {padding-left: 50rpx;}
+
+.p-r-10 {padding-right: 10rpx;}
+.p-r-15 {padding-right: 15rpx;}
+.p-r-20 {padding-right: 20rpx;}
+.p-r-25 {padding-right: 25rpx;}
+.p-r-30 {padding-right: 30rpx;}
+.p-r-40 {padding-right: 40rpx;}
+.p-r-50 {padding-right: 50rpx;}
+
+.p-t-5 {padding-top: 5rpx;}
+.p-t-10 {padding-top: 10rpx;}
+.p-t-15 {padding-top: 15rpx;}
+.p-t-20 {padding-top: 20rpx;}
+.p-t-25 {padding-top: 25rpx;}
+.p-t-30 {padding-top: 30rpx;}
+.p-t-40 {padding-top: 40rpx;}
+.p-t-50 {padding-top: 50rpx;}
+
+.p-b-10 {padding-bottom: 10rpx;}
+.p-b-15 {padding-bottom: 15rpx;}
+.p-b-20 {padding-bottom: 20rpx;}
+.p-b-25 {padding-bottom: 25rpx;}
+.p-b-30 {padding-bottom: 30rpx;}
+.p-b-40 {padding-bottom: 40rpx;}
+.p-b-50 {padding-bottom: 50rpx;}
+
+.p-lr-10 {padding-left: 10rpx;padding-right: 10rpx;}
+.p-lr-15 {padding-left: 15rpx;padding-right: 15rpx;}
+.p-lr-20 {padding-left: 20rpx;padding-right: 20rpx;}
+.p-lr-25 {padding-left: 25rpx;padding-right: 25rpx;}
+.p-lr-30 {padding-left: 30rpx;padding-right: 30rpx;}
+.p-lr-40 {padding-left: 40rpx;padding-right: 40rpx;}
+.p-lr-50 {padding-left: 50rpx;padding-right: 50rpx;}
+
+.p-tb-3 {padding-top: 3rpx;padding-bottom: 3rpx;}
+.p-tb-5 {padding-top: 5rpx;padding-bottom: 5rpx;}
+.p-tb-10 {padding-top: 10rpx;padding-bottom: 10rpx;}
+.p-tb-15 {padding-top: 15rpx;padding-bottom: 15rpx;}
+.p-tb-20 {padding-top: 20rpx;padding-bottom: 20rpx;}
+.p-tb-25 {padding-top: 25rpx;padding-bottom: 25rpx;}
+.p-tb-30 {padding-top: 30rpx;padding-bottom: 30rpx;}
+.p-tb-35 {padding-top: 35rpx;padding-bottom: 35rpx;}
+.p-tb-40 {padding-top: 40rpx;padding-bottom: 40rpx;}
+.p-tb-50 {padding-top: 50rpx;padding-bottom: 50rpx;}
+
+/* ------------------高度与行高------------------ */
+.lh-24{line-height: 24rpx;}
+.lh-26{line-height: 26rpx;}
+.lh-28{line-height: 28rpx;}
+.lh-30{line-height: 30rpx;}
+.lh-32{line-height: 32rpx;}
+.lh-34{line-height: 34rpx;}
+.lh-36{line-height: 36rpx;}
+.lh-38{line-height: 38rpx;}
+.lh-40{line-height: 40rpx;}
+.lh-42{line-height: 42rpx;}
+.lh-44{line-height: 44px;}
+.lh-46{line-height: 46rpx;}
+.lh-48{line-height: 48rpx;}
+.lh-50{line-height: 50rpx;}
+.lh-52{line-height: 52rpx;}
+.lh-54{line-height: 54rpx;}
+.lh-56{line-height: 56rpx;}
+.lh-56{line-height: 58rpx;}
+.lh-60{line-height: 60rpx;}
+.lh-70{line-height: 70rpx;}
+.lh-80{line-height: 80rpx;}
+.lh-100{line-height: 100rpx;}
+
+.no-data{padding-top: 300rpx;}
+
+/* ------------------圆角------------------ */
+.br-5{border-radius: 5rpx}
+.br-10{border-radius: 10rpx}
+.br-20{border-radius: 20rpx}
+
+/* ------------------二维码------------------ */
+.hide-canvas canvas{position: fixed;top: -99999rpx;left: -99999rpx;z-index: -99999;}
+
+/* ------------------遮罩------------------ */
+.xy-modal-box {position: fixed;margin: auto;background-color: #fff;z-index: 888888;opacity: 0;box-sizing: border-box;visibility: hidden;}
+
+.xy-modal-box-center{transform: translate(-50%, -50%) scale(1);left: 50%;top: 50%;transition: all 0.5s ease-in-out;}
+.xy-modal-box-bottom{left: 0;bottom: 0;transition: all 0.5s ease;transform: translateY(0%) !important;}
+
+.xy-modal-show {opacity: 1;visibility: visible;}
+
+.xy-modal-mask {position: fixed;top: 0;left: 0;right: 0;bottom: 0;background: rgba(0, 0, 0, 0.5);z-index: 666666;opacity: 0;visibility: hidden;}
+.xy-mask-show {visibility: visible;opacity: 1;}
+
+
+/* --------------bottom-fixed--------------*/
+.bottom-fixed{padding-bottom:constant(safe-area-inset-bottom);padding-bottom:env(safe-area-inset-bottom);position: fixed;width: 100%;bottom: 0;left: 0;}
+
+uni-page-head {display: none;} 
+uni-toast{z-index: 999999;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

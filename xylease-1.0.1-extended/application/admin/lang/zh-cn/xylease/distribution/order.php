@@ -1,0 +1,32 @@
+<?php
+
+return [
+    'Id'             => 'ID',
+    'Ordersn'       => '订单号',
+    'Store_id'       => '门店',
+    'User_id'        => '用户',
+    'Vip_id'         => 'VIP',
+    'Name'           => 'VIP名称',
+    'Type'           => 'VIP类型',
+    'Days'           => '时长(天)',
+    'Nums'           => '次数',
+    'Total_amount'   => '订单总金额',
+    'Total_fee'      => '支付金额',
+    'Pay_fee'        => '实际支付金额',
+    'Transaction_id' => '交易单号',
+    'Payment_json'   => '交易原始数据',
+    'Pay_type'       => '支付方式:wechat=微信支付',
+    'Paytime'        => '支付时间',
+    'Ext'            => '附加字段',
+    'Platform'       => '平台:wxMiniProgram=微信小程序',
+    'Remark'         => '用户备注',
+    'Status'         => '订单状态',
+    'Status -2'      => '交易关闭',
+    'Status -1'      => '已取消',
+    'Status 0'       => '未支付',
+    'Status 1'       => '已支付',
+    'Status 2'       => '已完成',
+    'Createtime'     => '创建时间',
+    'Updatetime'     => '更新时间',
+    'Deletetime'     => '删除时间'
+];

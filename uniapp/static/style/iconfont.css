@@ -1,0 +1,208 @@
+@font-face {
+  font-family: "xyicon";
+  src:url('@/static/style/iconfont.ttf') format('truetype');
+}
+
+.xyicon {
+  font-family: "xyicon" !important;
+  font-style: normal;
+  vertical-align: middle;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-checkboxchecked:before {
+  content: "\e683";
+}
+
+.icon-checkbox:before {
+  content: "\e684";
+}
+
+.icon-eye:before {
+  content: "\ec86";
+}
+
+.icon-weixin:before {
+  content: "\e63f";
+}
+
+.icon-balance:before {
+  content: "\fcae";
+  color:#f6cc4f
+}
+
+.icon-wechat:before {
+  content: "\e6ed";
+  border-radius: 8rpx;
+  color: #3cb034;
+  vertical-align: middle;
+}
+
+.icon-alipay:before {
+  color: #00a0ea;
+  background-color: #fff;
+  border-radius: 8rpx;
+  content: "\e663";
+}
+
+.icon-phone:before {
+  content: "\e860";
+}
+
+.icon-add:before {
+  content: "\eb78";
+}
+
+.icon-member:before {
+  content: "\e7e6";
+}
+
+.icon-empty:before {
+  content: "\e623";
+}
+
+.icon-loc:before {
+  content: "\e676";
+}
+
+.icon-edit:before {
+  content: "\ec7c";
+}
+
+.icon-shibai:before {
+  content: "\e64e";
+}
+
+.icon-back:before {
+  content: "\e610";
+}
+
+.icon-dh:before {
+  content: "\e656";
+}
+
+.icon-favorite:before {
+  content: "\eca7";
+}
+
+.icon-you:before {
+  content: "\e625";
+}
+
+.icon-del:before {
+  content: "\e670";
+}
+
+.icon-fail:before {
+  content: "\e6ce";
+}
+
+.icon-search:before {
+  content: "\e60e";
+}
+
+.icon-xiala:before {
+  content: "\e611";
+}
+
+.icon-bank:before {
+  content: "\e688";
+}
+
+.icon-star:before {
+  content: "\e9a1";
+}
+
+.icon-renzheng:before {
+  content: "\e6a2";
+}
+
+.icon-radio-a:before {
+  content: "\e615";
+}
+
+.icon-balance:before {
+  content: "\fcae";
+}
+
+.icon-renzheng1:before {
+  content: "\e62f";
+}
+
+.icon-scan:before {
+  content: "\e601";
+}
+
+.icon-cart:before {
+  content: "\e600";
+}
+
+.icon-favorite1:before {
+  content: "\e642";
+}
+
+.icon-triangle:before {
+  content: "\e652";
+}
+
+.icon-share:before {
+  content: "\e68e";
+}
+
+.icon-qrcode:before {
+  content: "\e643";
+}
+
+.icon-wechat:before {
+  content: "\e6ed";
+}
+
+.icon-close:before {
+  content: "\e61d";
+}
+
+.icon-right:before {
+  content: "\e61f";
+}
+
+.icon-home:before {
+  content: "\e602";
+}
+
+.icon-share1:before {
+  content: "\e60f";
+}
+
+.icon-store:before {
+  content: "\e60a";
+}
+
+.icon-time1:before {
+  content: "\e672";
+}
+
+.icon-radio:before {
+  content: "\eb5e";
+}
+
+.icon-kefu:before {
+  content: "\ec2e";
+}
+
+.icon-people:before {
+  content: "\e657";
+}
+
+.icon-unit:before {
+  content: "\e662";
+}
+
+.icon-address:before {
+  content: "\e694";
+}
+
+.icon-time:before {
+  content: "\ebb1";
+}
+

@@ -1,0 +1,124 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div id="app" v-clock>
+      
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-2">{:__('Name')}:</label>
+            <div class="col-xs-12 col-sm-8">
+                <input id="c-name" data-rule="required" class="form-control" name="row[name]" type="text" value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-2">{:__('Type')}:</label>
+            <div class="col-xs-12 col-sm-8">
+                <select  id="c-type" data-rule="required" class="form-control selectpicker" name="row[type]" @change="changeType()">
+                    {foreach name="typeList" item="vo"}
+                        <option value="{$key}" {in name="key" value="reward"}selected{/in}>{$vo}</option>
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        
+        <div v-if="type == 'reward'">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">{:__('Money')}:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input id="c-money" data-rule="required" class="form-control" step="0.01" name="row[money]" type="number" value="">
+                </div>
+            </div>
+        </div>
+    
+        <div v-if="type == 'discount'">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">{:__('Discount')}:</label>
+                <div class="col-xs-12 col-sm-3">
+                    <input id="c-discount" data-rule="required" class="form-control" step="0.01" name="row[discount]" type="number">
+                </div>
+                <div class="col-xs-12 col-sm-5 lh">
+                    请填1-10之间的数字，可保留两位小数。
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-2">{:__('Atleast')}:</label>
+            <div class="col-xs-12 col-sm-3">
+                <input id="c-atleast" data-rule="required" class="form-control" step="0.01" name="row[atleast]" type="number" value="">
+            </div>
+            <div class="col-xs-12 col-sm-5 lh">
+                0为不限制
+            </div>
+        </div>
+    
+    
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-2">{:__('Isshow')}:</label>
+            <div class="col-xs-12 col-sm-8">
+                            
+                <select  id="c-isshow" data-rule="required" class="form-control selectpicker" name="row[isshow]" @change="changeIsshow()">
+                    {foreach name="isshowList" item="vo"}
+                        <option value="{$key}" {in name="key" value="0"}selected{/in}>{$vo}</option>
+                    {/foreach}
+                </select>
+    
+            </div>
+        </div>
+
+        <div v-if="isshow == 1">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">{:__('Count')}:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input id="c-count" data-rule="required" class="form-control" name="row[count]" type="number" >
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">{:__('Maxfetch')}:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input id="c-maxfetch" data-rule="required" class="form-control" name="row[maxfetch]" type="number" >
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-2">{:__('Validitytype')}:</label>
+            <div class="col-xs-12 col-sm-8">
+                            
+                <select  id="c-validitytype" data-rule="required" class="form-control selectpicker" name="row[validitytype]" @change="changeValiditytype()">
+                    {foreach name="validitytypeList" item="vo"}
+                        <option value="{$key}" {in name="key" value="0"}selected{/in}>{$vo}</option>
+                    {/foreach}
+                </select>
+    
+            </div>
+        </div>
+        <div class="form-group" v-if="validitytype == 0">
+            <label class="control-label col-xs-12 col-sm-2">{:__('Endusetime')}:</label>
+            <div class="col-xs-12 col-sm-8">
+                 <input id="c-endusetime" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[endusetime]" type="text">
+        
+            </div>
+        </div>
+        <div class="form-group" v-if="validitytype == 1">
+            <label class="control-label col-xs-12 col-sm-2">{:__('Fixedterm')}:</label>
+            <div class="col-xs-12 col-sm-8">
+                <input id="c-fixedterm" data-rule="required" class="form-control" name="row[fixedterm]" type="number">
+            </div>
+        </div>
+        
+    </div>
+    
+    
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+        </div>
+    </div>
+</form>
+
+<style>
+    [v-clock] {display: none;}
+    .lh{line-height: 34px;}
+</style>

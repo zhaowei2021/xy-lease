@@ -1,0 +1,439 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div id="goodsDetail" v-clock>
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">基础信息</div>
+                <div class="panel-body">
+                    <div class="row mt-15">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Category_id')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <select data-rule="required" multiple id="c-category_ids" class="form-control selectpicker" name="row[category_ids][]">
+                                {foreach name="categoryList" item="vo"}
+                                <option value="{$key}" {in name="key" value=""}selected{/in}>{$vo.name}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-15">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Name')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-name" data-rule="required" class="form-control" name="row[name]" type="text">
+                        </div>
+                    </div>
+                    
+                    
+
+                    <div class="row mt-15">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Image')}:</label>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="input-group">
+                                <input id="c-image" data-rule="required" class="form-control" size="50" name="row[image]" type="text">
+                                <div class="input-group-addon no-border no-padding">
+                                    <span><button type="button" id="faupload-image" class="btn btn-danger faupload" data-input-id="c-image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="false" data-preview-id="p-image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                    <span><button type="button" id="fachoose-image" class="btn btn-primary fachoose" data-input-id="c-image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                                </div>
+                                <span class="msg-box n-right" for="c-image"></span>
+                            </div>
+                            <ul class="row list-inline faupload-preview" id="p-image"></ul>
+                        </div>
+                        <label class="control-label col-xs-12 col-sm-2">尺寸：750px * 750px</label>
+                    </div>
+                    <div class="row mt-15">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Images')}:</label>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="input-group">
+                                <input id="c-images" data-rule="required" class="form-control" size="50" name="row[images]" type="text">
+                                <div class="input-group-addon no-border no-padding">
+                                    <span><button type="button" id="faupload-images" class="btn btn-danger faupload" data-input-id="c-images" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="true" data-preview-id="p-images"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                    <span><button type="button" id="fachoose-images" class="btn btn-primary fachoose" data-input-id="c-images" data-mimetype="image/*" data-multiple="true"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                                </div>
+                                <span class="msg-box n-right" for="c-images"></span>
+                            </div>
+                            <ul class="row list-inline faupload-preview" id="p-images"></ul>
+                        </div>
+                        <label class="control-label col-xs-12 col-sm-2">尺寸：750px * 750px</label>
+                    </div>
+
+                    <div class="row mt-15">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <div class="radio">
+                            {foreach name="statusList" item="vo"}
+                                <label for="row[status]-{$key}"><input id="row[status]-{$key}" name="row[status]" type="radio" value="{$key}" {in name="key" value="up"}checked{/in} /> {$vo}</label> 
+                            {/foreach}
+                            </div>
+                
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input id="skuData" name="sku" type="hidden" />
+        <div class="col-md-12" v-if="type == 'package'">
+            <div class="panel panel-default">
+                <div class="panel-heading">套餐信息</div>
+                <div class="panel-body">
+
+                    <div class="row mt-15">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Hourprice')}:</label>
+                        <div class="col-xs-12 col-sm-3">
+                            <input id="c-hourprice" data-rule="required" class="form-control" step="0.01" name="row[hourprice]" type="number" value="">
+                        </div>
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Daysprice')}:</label>
+                        <div class="col-xs-12 col-sm-3">
+                            <input id="c-daysprice" data-rule="required" class="form-control" step="0.01" name="row[daysprice]" type="number" value="">
+                        </div>
+                    </div>
+                    <div class="row mt-15">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Nightprice')}:</label>
+                        <div class="col-xs-12 col-sm-3">
+                            <input id="c-nightprice" data-rule="required" class="form-control" step="0.01" name="row[nightprice]" type="number" value="">
+                        </div>
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Deposit')}:</label>
+                        <div class="col-xs-12 col-sm-3">
+                            <input id="c-deposit" data-rule="required" class="form-control" step="0.01" name="row[deposit]" type="number" value="">
+                        </div>
+                    </div>
+
+                    
+                    
+                    <div class="row mt-15">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('包含商品')}:</label>
+                        <div class="col-xs-12 col-sm-9">
+                            <div class="btn btn-success" @click="goodsSelect()"><i class="fa fa-search"></i> 选择商品</div>
+                            <div class="row goods-list">
+                                <div class="item flex" v-for="(item, index) in goodsList">
+                                    <div class="flex l">
+                                        <img :src="item.goodsimage" />
+                                        <div>
+                                            <div class="goods-name">{{ item.goodsname }}</div>
+                                            <div>{{ item.goodsskutext.length > 0 ? item.goodsskutext : '' }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex">
+                                        <label class="control-label">数量:</label>
+                                        <input data-rule="required" class="form-control" v-model="goodsList[index]['nums']" type="number" step="1" placeholder="请输入数量">
+                                    </div>
+                                    
+                                    <div class="del" @click="deleteGoods(index)">
+                                        <i class="fa fa-close"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input id="goodslist" name="row[goodslist]" type="hidden" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12" v-if="type == 'single' || type == 'sell' || type == 'service'">
+            <div class="panel panel-default">
+                <div class="panel-heading">规格库存</div>
+                <div class="panel-body">
+                    
+                    <div>
+                        <div class="row mt-15">
+                            <label class="control-label col-xs-12 col-sm-2">{:__('Issku')}:</label>
+                            <div class="col-xs-12 col-sm-3">
+                                <div class="radio">
+                                    {foreach name="isSkuList" item="vo"}
+                                    <label @click="changeSku({$key})"  for="row[issku]-{$key}"><input id="row[issku]-{$key}" name="row[issku]" type="radio" value="{$key}" {in name="key" value="0"}checked{/in} /> {$vo}</label> 
+                                    {/foreach}
+                                </div>
+                            </div>
+
+                            
+                        </div>
+                        
+                        <div v-if="issku == 0">
+
+                            <div v-if="type == 'single'">
+                                <div class="row mt-15">
+                                    <label class="control-label col-xs-12 col-sm-2">{:__('Hourprice')}:</label>
+                                    <div class="col-xs-12 col-sm-3">
+                                        <input id="c-hourprice" data-rule="required" class="form-control" step="0.01" name="row[hourprice]" type="number" value="">
+                                    </div>
+                                    <label class="control-label col-xs-12 col-sm-2">{:__('Daysprice')}:</label>
+                                    <div class="col-xs-12 col-sm-3">
+                                        <input id="c-daysprice" data-rule="required" class="form-control" step="0.01" name="row[daysprice]" type="number" value="">
+                                    </div>
+                                </div>
+                                <div class="row mt-15">
+                                    <label class="control-label col-xs-12 col-sm-2">{:__('Nightprice')}:</label>
+                                    <div class="col-xs-12 col-sm-3">
+                                        <input id="c-nightprice" data-rule="required" class="form-control" step="0.01" name="row[nightprice]" type="number" value="">
+                                    </div>
+                                    <label class="control-label col-xs-12 col-sm-2">{:__('Deposit')}:</label>
+                                    <div class="col-xs-12 col-sm-3">
+                                        <input id="c-deposit" data-rule="required" class="form-control" step="0.01" name="row[deposit]" type="number" value="">
+                                    </div>
+                                </div>
+                                <div class="row mt-15">
+                                    <label class="control-label col-xs-12 col-sm-2" v-if="issku == 0" >{:__('Stock')}:</label>
+                                    <div class="col-xs-12 col-sm-3" v-if="issku == 0" >
+                                        <input id="c-stock" data-rule="required" class="form-control" name="row[stock]" type="number" />
+                                    </div>
+                                    <label class="control-label col-xs-12 col-sm-2" v-if="issku == 0" >{:__('Sn')}:</label>
+                                    <div class="col-xs-12 col-sm-3" v-if="issku == 0" >
+                                        <input id="c-sn" class="form-control" name="row[sn]" type="text" />
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div v-else>
+                                <div class="row mt-15">
+                                    <label class="control-label col-xs-12 col-sm-2">{:__('Price')}:</label>
+                                    <div class="col-xs-12 col-sm-3">
+                                        <input id="c-price" data-rule="required" class="form-control" step="0.01" name="row[price]" type="number" value="">
+                                    </div>
+                                    <label class="control-label col-xs-12 col-sm-2" v-if="issku == 0" >{:__('Sn')}:</label>
+                                    <div class="col-xs-12 col-sm-3" v-if="issku == 0" >
+                                        <input id="c-sn" class="form-control" name="row[sn]" type="text" />
+                                    </div>
+                                </div>
+                                <div class="row mt-15">
+                                    <label class="control-label col-xs-12 col-sm-2" v-if="issku == 0" >{:__('Stock')}:</label>
+                                    <div class="col-xs-12 col-sm-3" v-if="issku == 0" >
+                                        <input id="c-stock" data-rule="required" class="form-control" name="row[stock]" type="number" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div v-if="issku == 1">
+                            <div class="row mt-15">
+                                <div class="col-xs-12 col-sm-12" >
+                                    <div class="add-sku-box">
+                                        <div class="row mt-15 item" v-for="(s, k) in skuList">
+                                            <div class="row">
+                                                <label class="control-label col-xs-12 col-sm-2">规格名称：</label>
+                                                <div class="col-xs-12 col-sm-6">
+                                                    <input data-rule="required" class="form-control" v-model="skuList[k]['name']" type="text" placeholder="请输入名称">
+                                                </div>
+                                                <div class="btn btn-success" @click="deleteMainSku(k)">
+                                                    删除
+                                                </div>
+                                            </div>
+                                            <div class="row mt-15">
+                                                <div class="control-label col-xs-12 col-sm-2">规格值：</div>
+                                                <div class="col-xs-12 col-sm-8">
+                                                    <div class="col-xs-12 col-sm-3" v-for="(sc, c) in s.children" style="padding-left: 0;position: relative;margin-bottom: 15px;">
+                                                        <input type="text" data-rule="required" class="form-control" v-model="skuList[k]['children'][c]['name']" placeholder="请输入规格值" />
+                                                        <div class="del-child-sku fa fa-close" @click="deleteChildrenSku(k,c)">
+                                                        </div>
+                                                    </div>
+                                                    <div class="btn btn-success" @click="addChildrenSku(k)">添加</div>
+                                                </div>
+                        
+                                            </div>
+                                        </div>
+                
+                                        <div class="row mt-15">
+                                            <div class="control-label col-xs-12 col-sm-2" style="padding-top: 0;">
+                                                <div class="btn btn-success" @click="addMainSku">
+                                                    +添加规格
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                
+                            <div class="row mt-15">
+                                <div class="col-xs-12 col-sm-12" >
+                                    
+                                    <div class="table-box" v-show="skuPrice.length && skuList.length">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <template v-for="(item, i) in skuList" :key="i">
+                                                        <th v-if="item.children.length" width="80">
+                                                            <span>{{item.name}}</span>
+                                                        </th>
+                                                    </template>
+                                                    <th><span>图片</span></th>
+                                                    <th v-if="type =='sell'">
+                                                        <span>价格</span>
+                                                    </th>
+                                                    <th v-if="type =='single'">
+                                                        <span>小时租价格</span>
+                                                    </th>
+                                                    <th v-if="type =='single'">
+                                                        <span>全日租价格</span>
+                                                    </th>
+                                                    <th v-if="type =='single'">
+                                                        <span>过夜租价格</span>
+                                                    </th>
+                                                    <th v-if="type =='single'">
+                                                        <span>押金</span>
+                                                    </th>
+                                                    <th>
+                                                        <span>库存</span>
+                                                    </th>
+                                                    <th>
+                                                        <span>货号</span>
+                                                    </th>
+                                                    <th>状态</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(item, i) in skuPrice" :key="i">
+                                                    <td v-for="(v, j) in item.goodsskutext" :key="j">
+                                                        <span class="th-center">{{v}}</span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="table-upload-img">
+                                                            <div class="sku-img" v-if="item.image">
+                                                                <img :src="Fast.api.cdnurl(item.image)" class="label-auto">
+                                                                <i class="fa fa-close" @click="delImg(i)"></i>
+                                                            </div>
+                                                            <div class="btn btn-success" v-else @click="addImg(i,false)">
+                                                                上传
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td v-if="type =='sell'">
+                                                        <input class="form-control" data-rule="required" type="number" v-model="item.price" />
+                                                    </td>
+                                                    <td v-if="type =='single'">
+                                                        <input class="form-control" data-rule="required" type="number" v-model="item.hourprice" />
+                                                    </td>
+                                                    <td v-if="type =='single'">
+                                                        <input class="form-control" data-rule="required" type="number" v-model="item.daysprice" />
+                                                    </td>
+                                                    <td v-if="type =='single'">
+                                                        <input class="form-control" data-rule="required" type="number" v-model="item.nightprice" />
+                                                    </td>
+                                                    <td v-if="type =='single'">
+                                                        <input class="form-control" data-rule="required" type="number" v-model="item.deposit" />
+                                                    </td>
+                                                    
+                                                    <td>
+                                                        <input class="form-control" data-rule="required" type="number" v-model="item.stock" />
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control" v-model="item.sn" />
+                                                    </td>
+                                                    <td>
+                                                        <div class="btn btn-success" @click="editStatus(i)">
+                                                            {{item.status=='up'?'上架':'下架'}}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">{:__('Content')}</div>
+                <div class="panel-body">
+                    <div class="row mt-15">
+                        <label class="control-label col-xs-12 col-sm-2"></label>
+                        <div class="col-xs-12 col-sm-8">
+                            <textarea id="c-content" class="form-control editor" rows="5" name="row[content]" cols="50"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">分销设置</div>
+                <div class="panel-body">
+                    <div class="row mt-15">
+                        <label class="control-label col-xs-12 col-sm-2">是否参与分销:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <div class="radio">
+                                {foreach name="isDisList" item="vo"}
+                                <label @click="changeDis({$key})"  for="row[isdis]-{$key}"><input id="row[isdis]-{$key}" name="row[isdis]" type="radio" value="{$key}" {in name="key" value="0"}checked{/in} />{$vo}</label> 
+                                {/foreach}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div v-if="isdis == 1" class="row mt-15">
+                        <label class="control-label col-xs-12 col-sm-2">佣金规则:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <div class="radio">
+                                {foreach name="disRuleList" item="vo"}
+                                <label @click="changeRule({$key})"  for="row[disrule]-{$key}"><input id="row[disrule]-{$key}" name="row[disrule]" type="radio" value="{$key}" {in name="key" value="0"}checked{/in} /> {$vo}</label> 
+                                {/foreach}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div v-if="isdis == 1 && disrule == 1" class="row mt-15">
+                        <div class="row mt-15 item">
+                            <label class="control-label col-xs-12 col-sm-2"></label>
+                            <input id="commissionrule" name="row[commissionrule]" type="hidden" />
+                            <div class="col-xs-12 col-sm-8">
+                                <table class="table-box crtable-box">
+                                    <tr>
+                                        <td v-if="issku == 1">商品规格</td>
+                                        <td>分销等级</td>
+                                        <td>一级佣金比例（%）</td>
+                                        <td>二级佣金比例（%）</td>
+                                    </tr>
+                                    <tr v-for="(item, k) in commissionRule">
+                                        <td v-if="issku == 1">{{item.goodsskutext}}</td>
+                                        <td>{{item.level_name}}</td>
+                                        <td>
+                                            <input v-enter-number maxlength="22"  class="form-control" v-model="item.commission_one" />
+                                        </td>
+                                        <td>
+                                            <input v-enter-number maxlength="22"  class="form-control" v-model="item.commission_two" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="row mt-15 layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>
+<style>
+    [v-clock] {display: none;}
+    .mt-15{margin-top: 15px;}
+    .table-upload-img img{width: 34px;height: 34px;}
+    table span{padding: 7px 0;display: block;}
+    .add-sku-box,table{padding: 0 0 15px;border: solid 1px #d2d6de;}
+    .add-sku-box .item{border-bottom: solid 1px #d2d6de;margin: 15px;padding-bottom: 15px;}
+    .del-child-sku{position: absolute;right: 6px; width: 20px;top: -6px;border-radius: 10px;background: #d2d6de;height: 20px;text-align: center;line-height: 18px;cursor: pointer;}
+    .crtable-box{border: solid 1px #ddd;width: 100%;}
+    .crtable-box th{font-weight: bold;}
+    .crtable-box td{padding: 10px 20px;border-top:  solid 1px #ddd;border-right:  solid 1px #ddd;}
+    .flex{display: flex;flex-wrap: wrap;}
+    .goods{justify-content: center;align-items: center;}
+    .goods-list .item{border: solid 1px #d2d6de; margin: 15px;padding: 15px;}
+    .goods-list .item .l{width: 360px;}
+    .goods-list .goods-name{font-size: 16px;font-weight: bold;padding: 5px 0 2px;}
+    .goods-list .item input{width: 100px; margin-top: 15px; margin-left: 30px;}
+    .goods-list .item .control-label{margin-top: 15px;}
+    .goods-list .item img{width: 80px;height: 60px; margin-right: 10px;}
+    .goods-list .item .del{font-size: 20px;color:#d2d6de ; padding: 15px;margin-left: auto;cursor:default;}
+    .goods-list .unit{margin: 20px 0 0 8px;}
+
+</style>

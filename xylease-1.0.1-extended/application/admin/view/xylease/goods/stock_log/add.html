@@ -1,0 +1,95 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Type')}:</label>
+        <div class="col-xs-12 col-sm-8">
+                        
+            <select  id="c-type" data-rule="required" class="form-control selectpicker" name="row[type]">
+                {foreach name="typeList" item="vo"}
+                    <option value="{$key}" {in name="key" value="sysadd"}selected{/in}>{$vo}</option>
+                {/foreach}
+            </select>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Goods_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-goods_id" data-rule="required" data-source="goods/index" class="form-control selectpage" name="row[goods_id]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Goods_sku_price_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-goods_sku_price_id" data-rule="required" data-source="goods/sku/price/index" class="form-control selectpage" name="row[goods_sku_price_id]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Goodsname')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-goodsname" data-rule="required" class="form-control" name="row[goodsname]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Goodsimage')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-goodsimage" data-rule="required" class="form-control" size="50" name="row[goodsimage]" type="text">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-goodsimage" class="btn btn-danger faupload" data-input-id="c-goodsimage" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="false" data-preview-id="p-goodsimage"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-goodsimage" class="btn btn-primary fachoose" data-input-id="c-goodsimage" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-goodsimage"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-goodsimage"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Goodsskutext')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-goodsskutext" data-rule="required" class="form-control" name="row[goodsskutext]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Before')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-before" data-rule="required" class="form-control" name="row[before]" type="number" value="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Nums')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-nums" data-rule="required" class="form-control" name="row[nums]" type="number" value="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('After')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-after" data-rule="required" class="form-control" name="row[after]" type="number" value="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Operaterole')}:</label>
+        <div class="col-xs-12 col-sm-8">
+                        
+            <select  id="c-operaterole" class="form-control selectpicker" name="row[operaterole]">
+                {foreach name="operateroleList" item="vo"}
+                    <option value="{$key}" {in name="key" value="admin"}selected{/in}>{$vo}</option>
+                {/foreach}
+            </select>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Operate_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-operate_id" data-rule="required" data-source="operate/index" class="form-control selectpage" name="row[operate_id]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+        </div>
+    </div>
+</form>

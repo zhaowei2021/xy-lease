@@ -1,0 +1,423 @@
+{
+	"pages": [
+		{
+			"path": "pages/index",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"enablePullDownRefresh": true
+			},
+			"meta": {
+				"auth": false
+			}
+		},
+		{
+			"path": "pages/category",
+			"style": {
+				"navigationBarTitleText": "分类",
+				"enablePullDownRefresh": true
+			},
+			"meta": {
+				"auth": false
+			}
+		},
+		{
+			"path": "pages/cart",
+			"style": {
+				"navigationBarTitleText": "购物车",
+				"enablePullDownRefresh": true
+			},
+			"meta": {
+				"auth": true
+			}
+		},
+		
+		{
+			"path": "pages/user",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"enablePullDownRefresh": true
+			},
+			"meta": {
+				"auth": false
+			}
+		},
+		{
+			"path": "pages/search",
+			"style": {
+				"navigationBarTitleText": "搜索",
+				"enablePullDownRefresh": false
+			},
+			"meta": {
+				"auth": false
+			}
+		}
+	],
+	"subPackages": [
+		{
+			"root": "pages/user",
+			"pages": [
+				{
+					"path": "login",
+					"name": "login",
+					"style": {
+						"navigationBarTitleText": "登录",
+						"enablePullDownRefresh": false
+					},
+					"meta": {
+						"auth": false
+					}
+				},
+				{
+					"path": "coupon/list",
+					"style": {
+						"navigationBarTitleText": "我的优惠券",
+						"enablePullDownRefresh": true
+					},
+					"meta": {
+						"auth": true
+					}
+				},
+				{
+					"path": "pay/result",
+					"style": {
+						"navigationBarTitleText": "支付结果",
+						"enablePullDownRefresh": false
+					},
+					"meta": {
+						"auth": true
+					}
+				},
+				{
+					"path": "favorite",
+					"style": {
+						"navigationBarTitleText": "商品收藏",
+						"enablePullDownRefresh": true
+					},
+					"meta": {
+						"auth": true
+					}
+				},
+				{
+					"path": "info",
+					"style": {
+						"navigationBarTitleText": "基础资料",
+						"enablePullDownRefresh": true
+					},
+					"meta": {
+						"auth": true
+					}
+				},
+				{
+					"path": "balance/detail",
+					"style": {
+						"navigationBarTitleText": "我的余额",
+						"enablePullDownRefresh": true
+					},
+					"meta": {
+						"auth": true
+					}
+				},
+				{
+					"path": "balance/recharge",
+					"style": {
+						"navigationBarTitleText": "充值",
+						"enablePullDownRefresh": true
+					},
+					"meta": {
+						"auth": true
+					}
+				},
+				{
+					"path" : "balance/log",
+					"style" :                                                                                    
+					{
+						"navigationBarTitleText": "余额明细",
+						"enablePullDownRefresh": true
+					},
+					"meta": {
+						"auth": true
+					}
+				},
+				{
+					"path": "order/confirm",
+					"style": {
+						"navigationBarTitleText": "订单确认",
+						"enablePullDownRefresh": false
+					},
+					"meta": {
+						"auth": true
+					}
+				},
+				{
+					"path": "order/list",
+					"style": {
+						"navigationBarTitleText": "商品订单",
+						"enablePullDownRefresh": true
+					},
+					"meta": {
+						"auth": true
+					}
+				},
+				{
+					"path": "order/detail",
+					"style": {
+						"navigationBarTitleText": "订单详情",
+						"enablePullDownRefresh": true
+					},
+					"meta": {
+						"auth": true
+					}
+				},
+				{
+					"path" : "withdraw/list",
+					"style" :                                                                                    
+					{
+						"navigationBarTitleText": "提现记录",
+						"enablePullDownRefresh": true
+					},
+					"meta": {
+						"auth": true
+					}
+				},
+				{
+					"path" : "withdraw/apply",
+					"style" :                                                                                    
+					{
+						"navigationBarTitleText": "申请提现",
+						"enablePullDownRefresh": false
+					},
+					"meta": {
+						"auth": true
+					}
+				},
+				{
+					"path" : "account/list",
+					"style" :                                                                                    
+					{
+						"navigationBarTitleText": "账户列表",
+						"enablePullDownRefresh": true
+					},
+					"meta": {
+						"auth": true
+					}
+				},
+				{
+					"path" : "account/add",
+					"style" :                                                                                    
+					{
+						"navigationBarTitleText": "新增账户",
+						"enablePullDownRefresh": false
+					},
+					"meta": {
+						"auth": true
+					}
+				}
+			]
+		},
+		{
+			"root": "pages/staff",
+			"pages": [
+				{
+					"path" : "clerk",
+					"style" :                                                                                    
+					{
+						"navigationBarTitleText": "员工中心",
+						"enablePullDownRefresh": true
+					},
+					"meta": {
+						"auth": true
+					}
+				},
+				{
+					"path" : "order/list",
+					"style" :                                                                                    
+					{
+						"navigationBarTitleText": "租赁订单",
+						"enablePullDownRefresh": true
+					},
+					"meta": {
+						"auth": true
+					}
+				},
+				{
+					"path" : "user/info",
+					"style" :                                                                                    
+					{
+						"navigationBarTitleText": "会员信息",
+						"enablePullDownRefresh": true
+					},
+					"meta": {
+						"auth": true
+					}
+				}
+				
+			]
+		},
+		{
+			"root": "pages/service",
+			"pages": [
+				{
+					"path": "notice/list",
+					"style": {
+						"navigationBarTitleText": "公告列表",
+						"enablePullDownRefresh": true
+					},
+					"meta": {
+						"auth": false
+					}
+				},
+				{
+					"path": "notice/detail",
+					"style": {
+						"navigationBarTitleText": "公告详情",
+						"enablePullDownRefresh": false
+					},
+					"meta": {
+						"auth": false
+					}
+				},
+				{
+					"path": "article/detail",
+					"style": {
+						"navigationBarTitleText": "文章详情",
+						"enablePullDownRefresh": false
+					},
+					"meta": {
+						"auth": false
+					}
+				}
+			]
+		},
+		{
+			"root": "pages/store",
+			"pages": [
+				{
+					"path": "detail",
+					"style": {
+						"navigationBarTitleText": "门店信息",
+						"enablePullDownRefresh": true
+					},
+					"meta": {
+						"auth": false
+					}
+				}
+			]
+		},
+		{
+			"root": "pages/market",
+			"pages": [
+				
+				{
+					"path": "coupon/list",
+					"style": {
+						"navigationBarTitleText": "领券市场",
+						"enablePullDownRefresh": true
+					},
+					"meta": {
+						"auth": false
+					}
+		
+				}
+			]
+		},
+		{
+			"root": "pages/goods",
+			"pages": [
+				{
+					"path": "detail",
+					"style": {
+						"navigationBarTitleText": "商品详情",
+						"enablePullDownRefresh": true
+					},
+					"meta": {
+						"auth": false
+					}
+				},
+				{
+					"path": "list",
+					"style": {
+						"navigationBarTitleText": "商品列表",
+						"enablePullDownRefresh": true
+					},
+					"meta": {
+						"auth": false
+					}
+				}
+				
+			]
+		},
+		{
+			"root": "pages/distribution",
+			"pages": [
+				{
+				    "path" : "center",
+				    "style" :                                                                                    
+				    {
+				        "navigationBarTitleText": "分销中心",
+				        "enablePullDownRefresh": true
+				    },
+					"meta": {
+						"auth": true
+					}
+				},
+				{
+				    "path" : "team",
+				    "style" :                                                                                    
+				    {
+				        "navigationBarTitleText": "我的团队",
+				        "enablePullDownRefresh": true
+				    },
+					"meta": {
+						"auth": true
+					}
+				},
+				{
+				    "path" : "bill",
+				    "style" :                                                                                    
+				    {
+				        "navigationBarTitleText": "账单报表",
+				        "enablePullDownRefresh": true
+				    },
+					"meta": {
+						"auth": true
+					}
+				},
+				{
+				    "path" : "order",
+				    "style" :                                                                                    
+				    {
+				        "navigationBarTitleText": "分销订单",
+				        "enablePullDownRefresh": true
+				    },
+					"meta": {
+						"auth": true
+					}
+				}
+			]
+		}
+		
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "XYlease租赁",
+		"navigationBarBackgroundColor": "#ffffff"
+	},
+	"tabBar": {
+		"color": "#333333",
+		"selectedColor": "#f05656",
+		"borderStyle": "white",
+		"list": [{
+				"pagePath": "pages/index"
+			},
+			{
+				"pagePath": "pages/category"
+			},
+			{
+				"pagePath": "pages/cart"
+			},
+			{
+				"pagePath": "pages/user"
+			}
+		]
+	}
+}

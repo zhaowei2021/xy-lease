@@ -1,0 +1,1438 @@
+<div id="app" v-cloak>
+    <div class="xylease-page">
+        <div class="left">
+            <div class="module">
+                <div class="item" v-for="(item,index) in module" :key="index">
+                    <div class="item-name"><i></i> {{getParameter(index)}}</div>
+                    <div class="item-row">
+                        <div v-for="item in item" @click="addTemplate(item)">
+                            <i class="fa" :class="'fa-'+item.icon"></i>
+                            <span>{{item.name}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="center">
+            <div class="xylease-tool">
+                <div @click="historyPage" class="btn btn-success btn-sm"><i class="fa fa-history"></i> 历史记录</div>
+                <div @click="publish()" class="btn btn-success btn-sm"><i class="fa fa-save"></i> 保存</div>
+            </div>
+            <div class="preview">
+                <div ref="parant" class="page"
+                    :style="{'background-color': pageData.page.style.pageBackgroundColor,'background-image': 'url('+pageData.page.style.pageBackgroundImage+')'}">
+                    <div class="navigation" 
+                        :style="{'background-color': pageData.page.style.navigationBarBackgroundColor, color:pageData.page.style.navigationBarTextStyle}"
+                        @click="onType('page')">
+                        <div class="status-bar">
+                            <div class="time"> {{nowTime}} </div>
+                            <div class="device">
+                                <i class="fa fa-signal"></i>
+                                <i class="fa fa-wifi"></i>
+                                <i class="fa fa-battery"></i>
+                            </div>
+                        </div>
+                        <div class="page-head">
+                            <span class="title">
+                                {{pageData.page.params.navigationBarTitleText}}
+                            </span>
+                        </div>
+                    </div>
+
+                    <vuedraggable class="draggable" v-model="pageData.item" v-bind="{animation:500}">
+                        <div class="xylease" v-for="(item,index) in pageData.item" :key="index" @click="onType(index)">
+
+                            <!-- 搜索组件 -->
+                            <div class="search" v-if="item.type == 'search'" :style="{'background':item.params.bgColor,'color':appStyle.textLightColor,'height':item.params.height/2+'px','line-height':item.params.height/2+'px','margin':'0 '+item.params.lrmargin/2+'px','border-radius':item.params.borderRadius/2+'px'}">
+                                <div>{{item.params.tiptext}}</div>
+                                <i class="fa fa-search" :style="{'color':appStyle.mainColor,'margin-top':(item.params.height/2 - 16)/2 + 'px'}"></i>
+                            </div>
+
+                            <!-- 公告组件 -->
+                            <div class="notice flex" v-if="item.type == 'notice'" :style="{'background':item.params.bgColor,'border-radius':item.params.borderRadius+'px','margin':'0 '+item.params.lrmargin/2+'px'}">
+                                <div class="l"><img :src="item.params.lefticon" /></div>
+                                <div class="c">最新公告标题</div>
+                                <div class="r"><i class="fa fa-angle-right"></i></div>
+                            </div>
+
+                            <!-- 轮播组件 -->
+                            <div class="banner" v-if="item.type == 'banner'" :style="{'height':item.params.height/2+'px','margin':'0 '+item.params.lrmargin/2+'px','border-radius':item.params.borderRadius/2+'px','margin-bottom':item.params.showfloat > 0 ? '70px' : 0}">
+                                <div class="items">
+                                    <img :src="cdnurl(item.data[0].image)" :style="{'height':item.params.height/2+'px','border-radius':item.params.borderRadius/2+'px'}">
+                                    <div class="indicator" v-if="item.params.indicatorDots == 1" :style="{'bottom':item.params.showfloat==1?'50px':'10px'}">
+                                        <div class="item">
+                                            <span v-for="(indic,index) in item.data" v-if="index == 0" :style="{'background':item.params.indicatorActiveColor}"></span>
+                                            <span v-for="(indic,index) in item.data" v-if="index > 0" :style="{'background':item.params.indicatorColor}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="floatimg flex" v-if="item.params.showfloat > 0">
+                                    <img :src="item.params.floatimg1" :style="{'width':(375-item.params.lrmargin-(item.params.showfloat == 2 ? 45 : 60))/item.params.showfloat+'px','height':(375-item.params.lrmargin-(item.params.showfloat == 2 ? 45 : 60))/item.params.showfloat+'px','margin-right':'15px'}" />
+                                    <img :src="item.params.floatimg2" v-if="item.params.showfloat > 1" :style="{'width':(375-item.params.lrmargin-(item.params.showfloat == 2 ? 45 : 60))/item.params.showfloat+'px','height':(375-item.params.lrmargin-(item.params.showfloat == 2 ? 45 : 60))/item.params.showfloat+'px','margin-right':'15px'}"/>
+                                    <img :src="item.params.floatimg3" v-if="item.params.showfloat > 2" :style="{'width':(375-item.params.lrmargin-(item.params.showfloat == 2 ? 45 : 60))/item.params.showfloat+'px','height':(375-item.params.lrmargin-(item.params.showfloat == 2 ? 45 : 60))/item.params.showfloat+'px','margin-right':'0px'}"/>
+                                </div>
+                            </div>
+
+                            <!-- 菜单组件 -->
+                            <div class="menu" v-if="item.type == 'menu'" :style="{'padding':item.params.upnjj/2+'px ' + item.params.lrnjj/2+'px','background':item.params.bgColor,'border-radius':item.params.borderRadius/2+'px','margin':'0 '+item.params.lrmargin/2+'px'}">
+                                
+                                <div class="menu-title" v-if="item.params.title">
+                                    <div class="c" :style="{'color':appStyle.textMainColor}">{{item.params.title}}</div>
+                                    <div class="r" v-if="item.params.linktitle" :style="{'color':appStyle.textLightColor}">{{item.params.linktitle}}<i class="fa fa-angle-right"></i></div>
+                                </div>
+                                <div class="grid text-center" :class="'col-' + item.params.colnum" >
+                                    <div class="item" v-for="(menu,menuIndex) in item.data" :style="{'width':(375-item.params.lrmargin-item.params.lrnjj-(item.params.colnum-1)*(item.params.itemjj/2))/item.params.colnum+'px','background':item.params.itemBgColor,'border-radius':item.params.itemBorderRadius+'px','margin-right':(menuIndex+1)%item.params.colnum == 0 ? 0 : item.params.itemjj/2+'px','margin-top':item.params.itemjj/2+'px'}">
+                                        <div :class="'inner'+(item.params.textimgpl==1?' lr':' ud')">
+                                            <img :src="menu.image" :style="{'height':item.params.imgwh/2+'px','width':item.params.imgwh/2+'px',}" />
+                                            <div :style="{color:item.params.textColor,'font-weight':item.params.textbold==1?'bold':'normal','font-size':item.params.textsize/2.5+'px','line-height':item.params.textimgpl==1?item.params.imgwh/2+'px':item.params.textsize/2+'px','height':item.params.textimgpl==1?item.params.imgwh/2+'px':item.params.textsize/2+'px'}">{{menu.name}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 门店组件 -->
+                            <div class="store" v-if="item.type == 'store'" :style="{'background':item.params.bgColor,'border-radius':item.params.borderRadius/2+'px','margin':'0 '+item.params.lrmargin/2+'px'}">
+                                <div class="name">
+                                    <img :src="item.params.logo" />
+                                    <span>{{item.params.name}}</span>
+                                </div>
+                                <div class="address">
+                                    <i class="fa fa-map-marker"></i>{{item.params.address}}
+                                </div>
+
+                                <div class="bh flex">
+                                    <div class="l">开放时间：{{item.params.businesshours}}</div>
+                                    <div class="r flex">
+                                        <div>
+                                            <div class="icon" :style="{'background':appStyle.mainColor}"><i class="fa fa-phone"></i></div>
+                                            <div>咨询</div>
+                                        </div>
+                                        <div style="margin: 0 15px;">
+                                            <div class="icon" :style="{'background':appStyle.mainColor}"><i class="fa fa-weixin"></i></div>
+                                            <div>微信</div>
+                                        </div>
+                                        <div>
+                                            <div class="icon" :style="{'background':appStyle.mainColor}"><i class="fa fa-compass"></i></div>
+                                            <div>导航</div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+
+                            <!-- 文字组件 -->
+                            <div class="text" v-if="item.type == 'text'">
+                                <div :style="{'font-size':item.params.textSize,'color':item.params.textColor,'text-align':item.params.textAlign,'margin': '0 '+item.params.lrmargin/2+'px'}">{{item.params.textContent}}</div>
+                            </div>
+
+                            <!-- 商品组件 -->
+                            <div class="goods" v-if="item.type == 'goods'" :style="{'background':item.params.bgColor,'border-radius':item.params.borderRadius/2+'px','margin':'0 '+item.params.lrmargin/2+'px','padding':item.params.njj/2+'px'}">
+                                
+                                <div class="menu-title" v-if="item.params.title">
+                                    <div class="l" :style="{'background':appStyle.mainColor}"></div>
+                                    <div class="c" :style="{'color':appStyle.textMainColor}">{{item.params.title}}</div>
+                                    <div class="r" v-if="item.params.linktitle" :style="{'color':appStyle.textLightColor}">{{item.params.linktitle}}<i class="fa fa-angle-right"></i></div>
+                                </div>
+                                <div class="goods-list" v-if="item.params.showStyle == 1">
+                                    <div class="item flex" v-for="goods in item.data" :style="{'margin-top':item.params.itemjj/2+'px','border-radius':item.params.itemBorderRadius+'px','background-color':item.params.itemBgColor,'border':'solid 1px '+appStyle.pageBgColor}">
+                                        <div class="l flex"><img :src="goods.image" :style="{'border-radius':item.params.itemBorderRadius+'px'}" /></div>
+                                        <div class="r">
+                                            <div class="name">{{goods.name}}</div>
+                                            <div class="price" :style="{'color':appStyle.textPriceColor}" v-if="goods.type == 'single' || goods.type == 'package'">
+                                                <div v-if="leaseConfig.defaultlease == 'hour'">
+                                                    <span>¥</span>{{goods.sku_price[0].hourprice}} <span :style="{'color':appStyle.textMainColor}">/小时</span>
+                                                </div>
+                                                <div v-if="leaseConfig.defaultlease == 'days'">
+                                                    <span>¥</span>{{goods.sku_price[0].daysprice}} <span :style="{'color':appStyle.textMainColor}">/天</span>
+                                                </div>
+                                                <div v-if="leaseConfig.defaultlease == 'night'">
+                                                    <span>¥</span>{{goods.sku_price[0].nightprice}} <span :style="{'color':appStyle.textMainColor}">/晚</span>
+                                                </div>
+                                            </div>
+                                            <div class="price" :style="{'color':appStyle.textPriceColor}" v-else>
+                                                <div>
+                                                    <span>¥</span>{{goods.sku_price[0].price}}
+                                                </div>
+                                            </div>
+                                            <div class="bottom flex">
+                                                <div v-if="goods.type == 'single' || goods.type == 'package'">
+                                                    <span :style="{'background':appStyle.mainColor}" v-if="leaseConfig.defaultlease == 'hour'">{{leaseConfig.starthour+'小时起租'}}</span>
+                                                    <span :style="{'background':appStyle.mainColor}" v-if="leaseConfig.defaultlease == 'days'">全日租</span>
+                                                    <span :style="{'background':appStyle.mainColor}" v-if="leaseConfig.defaultlease == 'night'">过夜租</span>
+                                                </div>
+                                                <div class="buy" :style="{'color':appStyle.mainColor}"><i class="fa fa-shopping-cart"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="goods-list-grad flex" v-if="item.params.showStyle == 2">
+                                    <div class="item" v-for="goods in item.data" :style="{'margin-top':item.params.njj/2+'px','width':(375-item.params.lrmargin - item.params.njj - item.params.itemjj/2)/2+'px'}">
+                                        <div class="image"><img :src="goods.image" :style="{'width':(375-item.params.lrmargin - item.params.njj - item.params.itemjj/2)/2+'px','height':(375-item.params.lrmargin - item.params.njj - item.params.itemjj/2)/2+'px','border-radius':item.params.itemBorderRadius+'px','background-color':item.params.itemBgColor}" /></div>
+                                        <div class="name">{{goods.name}}</div>
+                                        <div class="price" :style="{'color':appStyle.textPriceColor}" v-if="goods.type == 'single' || goods.type == 'package'">
+                                            <div v-if="leaseConfig.defaultlease == 'hour'">
+                                                <span>¥</span>{{goods.sku_price[0].hourprice}} <span :style="{'color':appStyle.textMainColor}">/小时</span>
+                                            </div>
+                                            <div v-if="leaseConfig.defaultlease == 'days'">
+                                                <span>¥</span>{{goods.sku_price[0].daysprice}} <span :style="{'color':appStyle.textMainColor}">/天</span>
+                                            </div>
+                                            <div v-if="leaseConfig.defaultlease == 'night'">
+                                                <span>¥</span>{{goods.sku_price[0].nightprice}} <span :style="{'color':appStyle.textMainColor}">/晚</span>
+                                            </div>
+                                        </div>
+                                        <div class="price" :style="{'color':appStyle.textPriceColor}" v-else>
+                                            <div>
+                                                <span>¥</span>{{goods.sku_price[0].price}}
+                                            </div>
+                                        </div>
+                                        <div class="bottom flex">
+                                            <div v-if="goods.type == 'single' || goods.type == 'package'">
+                                                <span :style="{'background':appStyle.mainColor}" v-if="leaseConfig.defaultlease == 'hour'">{{leaseConfig.starthour+'小时起租'}}</span>
+                                                <span :style="{'background':appStyle.mainColor}" v-if="leaseConfig.defaultlease == 'days'">全日租</span>
+                                                <span :style="{'background':appStyle.mainColor}" v-if="leaseConfig.defaultlease == 'night'">过夜租</span>
+                                            </div>
+                                            <div class="buy" :style="{'color':appStyle.mainColor}"><i class="fa fa-shopping-cart"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 图片櫥窗 -->
+                            <div class="image" :class="'layout-' + item.params.imgLayout" :style="{'margin':'0 '+item.params.lrmargin/2+'px'}" v-if="item.type == 'image'">
+                                <div class="item" v-for="image in item.data" >
+                                    <img :src="image.image" :style="{'border-radius': item.params.imgRadius/2+'px'}">
+                                </div>
+                            </div>
+
+                            <!-- 视频组件 -->
+                            <div class="video" :style="{'margin':'0 '+item.params.lrmargin/2+'px','border-radius':item.params.borderRadius/2+'px'}" v-if="item.type == 'video'">
+                                <video :style="{'border-radius':item.params.borderRadius/2+'px'}" :src="item.params.videourl" :poster="item.params.poster"></video>
+                            </div>
+
+                            <!-- 标题组件 -->
+                            <div class="title" v-if="item.type == 'title'" :style="{'background':item.params.bgColor,'border-radius':item.params.borderRadius+'px','margin':'0 '+item.params.lrmargin/2+'px'}">
+                                <div class="l" :style="{'background':appStyle.mainColor}"></div>
+                                <div class="c" :style="{'color':appStyle.textMainColor}">{{item.params.title}}</div>
+                                <div class="r" v-if="item.params.linktitle" :style="{'color':appStyle.textLightColor}">{{item.params.linktitle}}<i class="fa fa-angle-right"></i></div>
+                            </div>
+
+                            <!-- 空白组件 -->
+                            <div class="empty" v-if="item.type == 'empty'" :style="{'height':item.params.height/2 + 'px'}">
+                            </div>
+
+                            <!-- 用户卡片 -->
+                            <div class="user-card flex" v-if="item.type == 'user-card'" :style="{'background':item.params.bgColor,'border-radius':item.params.borderRadius/2+'px','margin':'0 '+item.params.lrmargin/2+'px','padding':item.params.njj/2+'px'}">
+                                <div class="l"><img src="/assets/addons/xylease/imgs/avatar.png" /></div>
+                                <div class="c">
+                                    <div class="nickname">湖南行云网络</div>
+                                    <div class="info" :style="appStyle.textLightColor">
+                                        个人信息<i class="fa fa-edit"></i>
+                                    </div>
+                                </div>
+                                <div class="r" :style="{'background':appStyle.mainColor}">
+                                    <div class="hym" ><i class="fa fa-qrcode"></i>会员码</div>
+                                </div>
+                            </div>
+
+                            <!-- 钱包模块 -->
+                            <div class="user-money flex" v-if="item.type == 'user-money'" :style="{'margin':'0 '+item.params.lrmargin/2+'px','padding':item.params.njj/2+'px' + ' 0','background-color':item.params.bgColor,'border-radius':item.params.borderRadius/2+'px'}">
+                                <div class="yue">
+                                    <p class="num">99.80</p>
+                                    <span>账户余额</span>
+                                </div>
+                                <div class="wallet" :style="{'border-left':'solid 1px '+pageData.page.style.pageBackgroundColor}">
+                                    <p><img :src="item.params.rechargeicon" /></p>
+                                    <span>充值</span>
+                                </div>
+                                <div class="wallet" :style="{'border-left':'solid 1px '+pageData.page.style.pageBackgroundColor}">
+                                    <p><img :src="item.params.walleticon" /></p>
+                                    <span>钱包</span>
+                                </div>
+                            </div>
+
+                            <div class="sub-del" @click="delModule(index)"><i class="fa fa-times"></i></div>
+                        </div>
+                    </vuedraggable>
+                </div>
+            </div>
+        </div>
+
+        <!-- 编辑器 -->
+        <div class="right">
+
+            <!-- 页面 -->
+            <div class="xylease-tabs" v-if="type == 'page'">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="active"><a href="#home" data-toggle="tab" aria-expanded="true">页面配置</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade active in" id="home">
+                        <div class="form-group">
+                            <div class="flex">
+                                <label>页面名称:</label>
+                                <div class="m-l-auto ibox">
+                                    <input type="text" class="form-control" v-model="pageData.name">
+                                </div>
+                            </div>
+                            <h5 class="page-header"></h5>
+                        </div>
+                        <div class="form-group">
+                            <div class="flex">
+                                <label>导航栏标题:</label>
+                                <div class="m-l-auto ibox">
+                                    <input type="text" class="form-control" v-model="pageData.page.params.navigationBarTitleText">
+                                </div>
+                            </div>
+                            <h5 class="page-header"></h5>
+                        </div>
+                        <div class="form-group">
+                            <div class="flex">
+                                <label>导航栏背景颜色:</label>
+                                <div class="m-l-auto ibox flex">
+                                    <input type="text" class="form-control" v-model="pageData.page.style.navigationBarBackgroundColor"> 
+                                    <input id="color" class="form-control" type="color" v-model="pageData.page.style.navigationBarBackgroundColor">
+                                </div>
+                            </div>
+                            <h5 class="page-header"></h5>
+                        </div>
+                        <div class="form-group">
+                            <div class="flex">
+                                <label>导航栏字体颜色:</label>
+                                <div class="m-l-auto ibox flex">
+                                    <select class="form-control" v-model="pageData.page.style.navigationBarTextStyle">
+                                        <option value="#ffffff">白色</option>
+                                        <option value="#000000">黑色</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <h5 class="page-header"></h5>
+                        </div>
+                        <div class="form-group">
+                            <div class="flex">
+                                <label>页面背景颜色:</label>
+                                <div class="m-l-auto ibox flex">
+                                    <input type="text" class="form-control" v-model="pageData.page.style.pageBackgroundColor">
+                                    <input id="color" class="form-control" type="color" v-model="pageData.page.style.pageBackgroundColor">
+                                </div>
+                            </div>
+                        </div>
+                        <h5 class="page-header"></h5>
+                        <div class="form-group ">
+                            <div class="flex p-t-10">
+                                <label>页面封面:</label>
+                                <div class="m-l-auto ibox flex">
+                                    <input type="file" id="pageCover" accept="image/*" @change="changeImage($event,'cover', true)" style="display:none">
+                                    <label for="pageCover" class="btn btn-success">
+                                        <i class="fa fa-upload"></i> 上传
+                                    </label>
+                                    <label class="btn btn-success m-l-10" @click="selectImage('cover',true)">
+                                        <i class="fa fa-upload"></i> 选择
+                                    </label>
+                                </div>
+                            </div>
+
+                            <ul class="row list-inline plupload-preview" v-if="pageData.cover">
+                                <li class="col-xs-3">
+                                    <a class="thumbnail">
+                                        <img :src="pageData.cover" class="img-responsive">
+                                        <span class="del fa fa-trash-o" @click="pageData.cover = ''"></span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <h5 class="page-header"></h5>
+                        <div class="form-group">
+                            <div class="flex p-t-10">
+                                <label>页面背景图:</label>
+                                <div class="m-l-auto ibox flex">
+                                    <input type="file" id="pageBackground" accept="image/*" @change="changeImage($event,'pageBackgroundImage')" style="display:none" >
+                                    <label for="pageBackground" class="btn btn-success">
+                                        <i class="fa fa-upload"></i> 上传
+                                    </label>
+                                    <label class="btn btn-success m-l-10" @click="selectImage('pageBackgroundImage')">
+                                        <i class="fa fa-upload"></i> 选择
+                                    </label>
+                                </div>
+                            </div>
+
+                            <ul class="row list-inline plupload-preview" v-if="pageData.page.style.pageBackgroundImage">
+                                <li class="col-xs-3">
+                                    <a class="thumbnail">
+                                        <img :src="pageData.page.style.pageBackgroundImage" class="img-responsive">
+                                        <span class="del fa fa-trash-o" @click="pageData.page.style.pageBackgroundImage = ''"></span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <!-- 组件 -->
+            <div class="xylease-module" v-for="(item,index) in pageData.item" :key="index" v-if="type == index">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="active" v-if="item.data !== undefined">
+                        <a href="#home" data-toggle="tab" aria-expanded="true">{{item.name}}数据</a>
+                    </li>
+                    <li :class="item.data !== undefined?'':'active'" v-if="item.params !== undefined">
+                        <a href="#params" data-toggle="tab" aria-expanded="false">配置参数</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade active in" id="home" v-if="item.data !== undefined">
+
+                        <div v-if="item.dataType !== undefined">
+                            <!-- 选择商品 -->
+                            <div v-if="item.dataType == 'goods'">
+                                <div class="form-group">
+                                    <button @click="selectGoods(index,true)" class="btn btn-success"><i class="fa fa-bars"></i> 选择商品 </button>
+                                </div>
+                                <div class="flex selectgoods">
+                                    <div v-for="(goods,key) in item.data" class="item">
+                                        <img :src="goods.image" width="100px" height="100px" />
+                                        <i class="fa fa-trash-o" @click="delData(index,key)"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div v-if="item.dataType == 'notice'">
+                                <div class="form-group">
+                                    <button @click="selectNotice(index,true)" class="btn btn-success"><i class="fa fa-bars"></i> 选择公告 </button>
+                                </div>
+                                <div class="selectnotice">
+                                    <div v-for="(notice,key) in item.data" class="item flex">
+                                        <p>{{notice.title}}</p>
+                                        <i class="fa fa-trash-o" @click="delData(index,key)"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-else>
+                            <div class="add-data" @click="addData(index,item.data[0])">
+                                <a class="btn btn-sm btn-success btn-append"><i class="fa fa-plus"></i>添加</a>
+                            </div>
+                            <div class="panel-group" id="accordion" role="tablist"
+                                aria-multiselectable="true">
+                                <div class="panel panel-default" v-for="(lists,num) in item.data" :key="num">
+                                    <div class="panel-heading" role="tab" :id="'heading-'+num">
+                                        <h4 class="panel-title" role="button" data-toggle="collapse"
+                                            data-parent="#accordion" :href="'#collapse-'+num"
+                                            :aria-expanded="num==0?true:false"
+                                            :aria-controls="'collapse-'+num">
+                                            {{item.name}} <strong>{{num+1}}</strong>
+                                        </h4>
+                                        <span @click="delData(index,num)"><i class="fa fa-trash-o"></i></span>
+                                    </div>
+                                    <div :id="'collapse-'+num" class="panel-collapse collapse" :class="num==0?'in':''" role="tabpanel" :aria-labelledby="'heading-'+num">
+                                        <div class="panel-body">
+                                            <div v-for="(datas,type) in lists" :key="type">
+                                                <!-- 图片上传组件 -->
+                                                <div class="form-group" v-if="type == 'image'">
+                                                    <div class="flex p-t-10">
+                                                        <label>图片:</label>
+                                                        <div class="m-l-auto flex ibox">
+                                                            <input class="form-control" type="text" v-model="lists[type]" placeholder="图片地址">
+                                                            <input type="file" :id="type+index+num" accept="image/*" @change="dataUpload($event,index,num,type)" :ref="type+index+num" style="display: none;">
+                                                            <label :for="type+index+num" class="btn btn-success m-l-10">
+                                                                <i class="fa fa-upload"></i> 上传
+                                                            </label>
+                                                            <label class="btn btn-success m-l-10" @click="dataAttSelect(index,num,type)">
+                                                                <i class="fa fa-upload"></i> 选择
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <h5 class="page-header"></h5>
+                                                    <ul class="row list-inline plupload-preview">
+                                                        <li class="col-xs-3">
+                                                            <a class="thumbnail"><img :src="cdnurl(lists[type])" class="img-responsive"></a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <!-- 链接地址 -->
+                                                <div class="form-group" v-else-if="type == 'link'">
+                                                    <h5 class="page-header"></h5>
+                                                    <div class="flex">
+                                                        <label>链接地址:</label>
+                                                        <div class="ibox m-l-auto">
+                                                            <div class="xylease-upload">
+                                                                <input type="text" class="form-control" v-model="lists[type]" placeholder="链接">
+                                                                <button @click="selectLink(index,num,type,'false')" class="btn btn-success xylease-link">
+                                                                    <i class="fa fa-link"> 选择</i> 
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                
+                                                <!-- 普通表单 -->
+                                                <div class="form-group" v-else>
+                                                    <label>{{getParameter(type)}}:</label>
+                                                    <input type="text" class="form-control" v-model="lists[type]" :placeholder="'请输入' + getParameter(type)">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div :class="'tab-pane fade'+(item.data !== undefined?'':' active in')" id="params">
+                        <div class="form-group" v-for="(params,type) in item.params" :key="type">
+                            <!-- 轮播是否自动切换 -->
+                            <div v-if="type == 'autoplay'">
+                                <div class="flex">
+                                    <label>是否自动切换:</label>
+                                    <div class="m-l-auto ibox">
+                                        <select class="form-control" v-model="item.params[type]">
+                                            <option value="1">是</option>
+                                            <option value="0">否</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <h5 class="page-header"></h5>
+                            </div>
+                            <div v-else-if="type == 'textAlign'">
+                                <div class="flex">
+                                    <label>对齐方式:</label>
+                                    <div class="m-l-auto ibox">
+                                        <select class="form-control" v-model="item.params[type]">
+                                            <option value="left">左对齐</option>
+                                            <option value="center">居中</option>
+                                            <option value="right">右对齐</option>
+                                        </select>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            <div v-else-if="type == 'showStyle'">
+                                <div class="flex">
+                                    <label>展示风格:</label>
+                                    <div class="m-l-auto ibox">
+                                        <select class="form-control" v-model="item.params[type]">
+                                            <option value="1">一行一个</option>
+                                            <option value="2">一行两个</option>
+                                        </select>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            <div v-else-if="type == 'indicatorDots'">
+                                <div class="flex">
+                                    <label>显示面板指示点:</label>
+                                    <div class="m-l-auto ibox">
+                                        <select class="form-control" v-model="item.params[type]">
+                                            <option value="1">是</option>
+                                            <option value="0">否</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <h5 class="page-header"></h5>
+                            </div>
+                            <div v-else-if="type == 'textbold'">
+                                <div class="flex">
+                                    <label>文字加粗:</label>
+                                    <div class="m-l-auto ibox">
+                                        <select class="form-control" v-model="item.params[type]">
+                                            <option value="1">是</option>
+                                            <option value="0">否</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <h5 class="page-header"></h5>
+                            </div>
+                            <div v-else-if="type == 'showcimg'">
+                                <div class="flex">
+                                    <label>显示分类图片:</label>
+                                    <div class="m-l-auto ibox">
+                                        <select class="form-control" v-model="item.params[type]">
+                                            <option value="1">是</option>
+                                            <option value="0">否</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <h5 class="page-header"></h5>
+                            </div>
+                            <div v-else-if="type == 'indicatorColor'">
+                                <div class="flex">
+                                    <label>指示点颜色:</label>
+                                    <div class="m-l-auto flex ibox">
+                                        <input type="text" class="form-control" v-model="item.params[type]"> <input id="color" class="form-control"
+                                        type="color" v-model="item.params[type]">
+                                    </div>
+                                </div>
+                                <h5 class="page-header"></h5>
+                            </div>
+                            <div v-else-if="type == 'indicatorActiveColor'">
+                                <div class="flex">
+                                    <label>当前选中的指示点颜色:</label>
+                                    <div class="m-l-auto ibox flex">
+                                        <input type="text" class="form-control" v-model="item.params[type]">
+                                        <input id="color" class="form-control" type="color" v-model="item.params[type]">
+                                    </div>
+                                </div>
+                                <h5 class="page-header"></h5>
+                            </div>
+                            <div v-else-if="type == 'colnum'">
+                                <div class="flex">
+                                    <label>每行数量:</label>
+                                    <div class="m-l-auto ibox">
+                                        <select class="form-control" v-model="item.params[type]">
+                                            <option value="1">每行 1 列</option>
+                                            <option value="2">每行 2 列</option>
+                                            <option value="3">每行 3 列</option>
+                                            <option value="4">每行 4 列</option>
+                                            <option value="5">每行 5 列</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <h5 class="page-header"></h5>
+                            </div>
+
+                            <div v-else-if="type == 'textimgpl'">
+                                <div class="flex">
+                                    <label>文字图片排列:</label>
+                                    <div class="m-l-auto ibox">
+                                        <select class="form-control" v-model="item.params[type]">
+                                            <option value="1">左右</option>
+                                            <option value="2">上下</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <h5 class="page-header"></h5>
+                            </div>
+
+                            <div v-else-if="type == 'scroll'">
+                                <div class="flex">
+                                    <label>滚动方式:</label>
+                                    <div class="m-l-auto ibox">
+                                        <select class="form-control" v-model="item.params[type]">
+                                            <option value="tb">上下滚动</option>
+                                            <option value="lr">左右滚动</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <h5 class="page-header"></h5>
+                            </div>
+                            <div v-else-if="type == 'bgColor'">
+                                <div class="flex">
+                                    <label>模块背景颜色:</label>
+                                    <div class="m-l-auto flex ibox">
+                                        <input type="text" class="form-control" v-model="item.params[type]"> <input id="color" class="form-control" type="color" v-model="item.params[type]">
+                                    </div>
+                                </div>
+                                <h5 class="page-header"></h5>
+                            </div>
+                            <div v-else-if="type == 'itemBgColor'">
+                                <div class="flex">
+                                    <label>选项背景颜色:</label>
+                                    <div class="m-l-auto flex ibox">
+                                        <input type="text" class="form-control" v-model="item.params[type]"> <input id="color" class="form-control" type="color" v-model="item.params[type]">
+                                    </div>
+                                </div>
+                                <h5 class="page-header"></h5>
+                            </div>
+                            
+                            <div v-else-if="type == 'lefticon'">
+                                <div class="flex">
+                                    <label>左侧图标:</label>
+                                    <div class="m-l-auto flex ibox">
+                                        <input type="file" :id="type+index" accept="image/*" @change="paramsUpload($event,index,type)":ref="type+index" style="display: none;">
+                                        <label :for="type+index" class="btn btn-success">
+                                            <i class="fa fa-upload"></i> 上传
+                                        </label>
+                                        <label class="btn btn-success m-l-10" @click="paramsAttSelect(index,type)">
+                                            <i class="fa fa-upload"></i> 选择
+                                        </label>
+                                    </div>
+                                </div>
+                                <ul class="row list-inline plupload-preview" v-if="item.params.lefticon">
+                                    <li class="col-xs-3">
+                                        <a class="thumbnail">
+                                            <img :src="item.params.lefticon" class="img-responsive">
+                                            <span class="del fa fa-trash-o" @click="item.params.lefticon = ''"></span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <h5 class="page-header"></h5>
+                            </div>
+
+                            <div v-else-if="type == 'logo'">
+                                <div class="flex">
+                                    <label>Logo:</label>
+                                    <div class="m-l-auto flex ibox">
+                                        <input type="file" :id="type+index" accept="image/*" @change="paramsUpload($event,index,type)":ref="type+index" style="display: none;">
+                                        <label :for="type+index" class="btn btn-success">
+                                            <i class="fa fa-upload"></i> 上传
+                                        </label>
+                                        <label class="btn btn-success m-l-10" @click="paramsAttSelect(index,type)">
+                                            <i class="fa fa-upload"></i> 选择
+                                        </label>
+                                    </div>
+                                </div>
+                                <ul class="row list-inline plupload-preview" v-if="item.params.logo">
+                                    <li class="col-xs-3">
+                                        <a class="thumbnail">
+                                            <img :src="item.params.logo" class="img-responsive">
+                                        </a>
+                                    </li>
+                                </ul>
+                                <h5 class="page-header"></h5>
+                            </div>
+
+                            <div v-else-if="type == 'rechargeicon'" class="form-group">
+                                <div class="flex p-t-10">
+                                    <label>充值图标:</label>
+                                    <div class="m-l-auto flex ibox">
+                                        <input type="file" :id="type+index" accept="image/*" @change="paramsUpload($event,index,type)":ref="type+index" style="display: none;">
+                                        <label :for="type+index" class="btn btn-success">
+                                            <i class="fa fa-upload"></i> 上传
+                                        </label>
+                                        <label class="btn btn-success m-l-10" @click="paramsAttSelect(index,type)">
+                                            <i class="fa fa-upload"></i> 选择
+                                        </label>
+                                    </div>
+                                </div>
+                                <ul class="row list-inline plupload-preview" v-if="item.params.rechargeicon">
+                                    <li class="col-xs-3">
+                                        <a class="thumbnail">
+                                            <img :src="item.params.rechargeicon" class="img-responsive">
+                                            <span class="del fa fa-trash-o" @click="item.params.lefticon = ''"></span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div v-else-if="type == 'videourl'" class="form-group">
+                                <div class="flex p-t-10">
+                                    <label>视频:</label>
+                                    <div class="m-l-auto flex ibox">
+                                        <input type="file" :id="type+index" accept="image/*" @change="paramsUpload($event,index,type)":ref="type+index" style="display: none;">
+                                        <label class="btn btn-success m-l-10" @click="paramsAttSelect(index,type)">
+                                            <i class="fa fa-upload"></i> 选择
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div v-else-if="type == 'poster'" class="form-group">
+                                <h5 class="page-header"></h5>
+                                <div class="flex p-t-10">
+                                    <label>视频封面:</label>
+                                    <div class="m-l-auto flex ibox">
+                                        <input type="file" :id="type+index" accept="image/*" @change="paramsUpload($event,index,type)":ref="type+index" style="display: none;">
+                                        <label :for="type+index" class="btn btn-success">
+                                            <i class="fa fa-upload"></i> 上传
+                                        </label>
+                                        <label class="btn btn-success m-l-10" @click="paramsAttSelect(index,type)">
+                                            <i class="fa fa-upload"></i> 选择
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <ul class="row list-inline plupload-preview" v-if="item.params.poster">
+                                    <li class="col-xs-3">
+                                        <a class="thumbnail"><img :src="item.params.poster" class="img-responsive"></a>
+                                        <span class="del fa fa-trash-o" @click="item.params.poster = ''"></span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div v-else-if="type == 'walleticon'" class="form-group">
+                                <h5 class="page-header"></h5>
+                                <div class="flex p-t-10">
+                                    <label>钱包图标:</label>
+                                    <div class="m-l-auto flex ibox">
+                                        <input type="file" :id="type+index" accept="image/*" @change="paramsUpload($event,index,type)":ref="type+index" style="display: none;">
+                                        <label :for="type+index" class="btn btn-success">
+                                            <i class="fa fa-upload"></i> 上传
+                                        </label>
+                                        <label class="btn btn-success m-l-10" @click="paramsAttSelect(index,type)">
+                                            <i class="fa fa-upload"></i> 选择
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <ul class="row list-inline plupload-preview" v-if="item.params.walleticon">
+                                    <li class="col-xs-3">
+                                        <a class="thumbnail"><img :src="item.params.walleticon" class="img-responsive"></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div v-else-if="type == 'showfloat'">
+                                <div class="flex">
+                                    <label>显示悬浮图片:</label>
+                                    <div class="m-l-auto ibox">
+                                        <select class="form-control" v-model="item.params[type]">
+                                            <option value="0">不显示</option>
+                                            <option value="2">显示2张</option>
+                                            <option value="3">显示3张</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <h5 class="page-header"></h5>
+                            </div>
+                            <div v-else-if="type == 'floatimg1'" class="form-group">
+                                <div class="flex p-t-10">
+                                    <label>悬浮图片1:</label>
+                                    <div class="m-l-auto flex ibox">
+                                        <input type="file" :id="type+index" accept="image/*" @change="paramsUpload($event,index,type)":ref="type+index" style="display: none;">
+                                        <label :for="type+index" class="btn btn-success">
+                                            <i class="fa fa-upload"></i> 上传
+                                        </label>
+                                        <label class="btn btn-success m-l-10" @click="paramsAttSelect(index,type)">
+                                            <i class="fa fa-upload"></i> 选择
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <ul class="row list-inline plupload-preview" v-if="item.params.floatimg1">
+                                    <li class="col-xs-3">
+                                        <a class="thumbnail">
+                                            <img :src="item.params.floatimg1" class="img-responsive">
+                                        </a>
+                                    </li>
+                                </ul>
+                                
+                            </div>
+
+                            <div class="form-group " v-else-if="type == 'floatlink1'">
+                                <div class="flex">
+                                    <label>链接地址:</label>
+                                    <div class="m-l-auto ibox flex">
+                                        <input type="text" class="form-control" v-model="item.params[type]" placeholder="点击右侧按钮选择链接">
+                                        <button @click="selectLink(index,-1,type,'false')" class="btn btn-success"><i class="fa fa-link"></i> 选择 </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div v-else-if="type == 'floatimg2'" class="form-group">
+                                <h5 class="page-header"></h5>
+                                <div class="flex p-t-10">
+                                    <label>悬浮图片2:</label>
+                                    <div class="m-l-auto flex ibox">
+                                        <input type="file" :id="type+index" accept="image/*" @change="paramsUpload($event,index,type)":ref="type+index" style="display: none;">
+                                        <label :for="type+index" class="btn btn-success">
+                                            <i class="fa fa-upload"></i> 上传
+                                        </label>
+                                        <label class="btn btn-success m-l-10" @click="paramsAttSelect(index,type)">
+                                            <i class="fa fa-upload"></i> 选择
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <ul class="row list-inline plupload-preview" v-if="item.params.floatimg2">
+                                    <li class="col-xs-3">
+                                        <a class="thumbnail">
+                                            <img :src="item.params.floatimg2" class="img-responsive">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="form-group " v-else-if="type == 'floatlink2'">
+                                <div class="flex">
+                                    <label>链接地址:</label>
+                                    <div class="m-l-auto ibox flex">
+                                        <input type="text" class="form-control" v-model="item.params[type]" placeholder="点击右侧按钮选择链接">
+                                        <button @click="selectLink(index,-1,type,'false')" class="btn btn-success"><i class="fa fa-link"></i> 选择 </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div v-else-if="type == 'floatimg3'" class="form-group">
+                                <h5 class="page-header"></h5>
+                                <div class="flex p-t-10">
+                                    <label>悬浮图片3:</label>
+                                    <div class="m-l-auto flex ibox">
+                                        <input type="file" :id="type+index" accept="image/*" @change="paramsUpload($event,index,type)":ref="type+index" style="display: none;">
+                                        <label :for="type+index" class="btn btn-success">
+                                            <i class="fa fa-upload"></i> 上传
+                                        </label>
+                                        <label class="btn btn-success m-l-10" @click="paramsAttSelect(index,type)">
+                                            <i class="fa fa-upload"></i> 选择
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <ul class="row list-inline plupload-preview" v-if="item.params.floatimg3">
+                                    <li class="col-xs-3">
+                                        <a class="thumbnail">
+                                            <img :src="item.params.floatimg3" class="img-responsive">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="form-group " v-else-if="type == 'floatlink3'">
+                                <div class="flex">
+                                    <label>链接地址:</label>
+                                    <div class="m-l-auto ibox flex">
+                                        <input type="text" class="form-control" v-model="item.params[type]" placeholder="点击右侧按钮选择链接">
+                                        <button @click="selectLink(index,-1,type,'false')" class="btn btn-success"><i class="fa fa-link"></i> 选择 </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div v-else-if="type == 'textColor'">
+                                <div class="flex">
+                                    <label>文字颜色:</label>
+                                    <div class="m-l-auto ibox flex">
+                                        <input type="text" class="form-control" v-model="item.params[type]">
+                                        <input id="color" class="form-control" type="color" v-model="item.params[type]">
+                                    </div>
+                                </div>
+                                <h5 class="page-header"></h5>
+                            </div>
+                            <div v-else-if="type == 'imgLayout'">
+                                <label>布局方式:</label>
+                                <select class="form-control" v-model="item.params[type]">
+                                    <option value="1">一张大图</option>
+                                    <option value="2">左一右一</option>
+                                    <option value="3">左一右二</option>
+                                    <option value="4">左二右一</option>
+                                    <option value="5">一排四张</option>
+                                </select>
+                            </div>
+                            <div class="form-group " v-else-if="type == 'link'">
+                                <div class="flex">
+                                    <label>链接地址:</label>
+                                    <div class="m-l-auto ibox flex">
+                                        <input type="text" class="form-control" v-model="item.params[type]" placeholder="点击右侧按钮选择链接">
+                                        <button @click="selectLink(index,-1,type,'false')" class="btn btn-success"><i class="fa fa-link"></i> 选择 </button>
+                                    </div>
+                                </div>
+                                <h5 class="page-header"></h5>
+                            </div>
+                            <div class="form-group" v-else>
+                                <div class="flex">
+                                    <label>{{getParameter(type)}}:</label>
+                                    <div class="ibox m-l-auto">
+                                        <input type="text" class="form-control" v-model="item.params[type]">
+                                    </div>
+                                </div>
+                                <h5 class="page-header"></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+
+    [v-cloak] {
+        display: none;
+    }
+    .flex{display: flex;}
+    .m-l-auto{margin-left: auto;} 
+    .ibox{width: 70%; justify-content: flex-end;}
+    #params .ibox{width: 50%;}
+    label{line-height: 34px;margin: 0;font-weight: normal;}
+    .m-l-10{margin-left: 10px;}
+    .page-header{margin: 10px 0;}
+    .plupload-preview .thumbnail, .faupload-preview .thumbnail{margin-bottom: 0;}
+    .plupload-preview .thumbnail .del{position: absolute; right: -8px; top: -8px; width: 20px;height: 20px;font-size: 20px;}
+    .p-t-10{padding-top: 10px;}
+    .grid.col-2>div{width: 50%;}
+
+    
+    .selectgoods{flex-wrap: wrap;}
+    .selectgoods .item{margin-right: 20px;position: relative; margin-bottom: 20px;}
+    .selectgoods .item i{position: absolute;font-size: 20px; font-weight: normal; right: -6px;top: -6px;}
+    .selectnotice .item{line-height: 30px;}
+    .selectnotice .item i{margin-left: auto;}
+
+    .no-data{padding: 30px;text-align: center;border-radius: 10px;margin: 15px;}
+    .page-head {width: 100%;height: 44px;overflow: hidden;text-align: center;}
+    .xy-select{display: flex;}
+    .page-head .title {font-size: 14px;}
+    .xylease-page {display: flex;}
+    .xylease-page .left { width: 28%;border: #e6e6e6 solid 1px;}
+    .xylease-page .left .module {padding: 15px;}
+    .xylease-page .left .module::-webkit-scrollbar {display: none;}
+    .xylease-page .left .module .item {margin: 20px 0;}
+    .xylease-page .left .module .item-name {line-height: 14px;margin: 10px 0;
+        border-bottom: solid 1px #e6e6e6;
+        padding-bottom: 10px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .xylease-page .left .module .item-name i {
+        height: 12px;
+        width: 2px;
+        background-color: #f05656;
+        margin-right: 4px;
+        display: inline-flex;
+    }
+
+
+    .xylease-page .left .module .item .item-row {
+        display: flex;
+        display: -webkit-flex;
+        justify-content: flex-start;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .xylease-page .left .module .item .item-row>div {
+        width: 22%;
+        margin: 1.5%;
+        border: 1px solid #e6e6e6;
+        text-align: center;
+        padding: 10px 0;
+        line-height: 1;
+        border-radius: 5px;
+    }
+
+    .xylease-page .left .module .item .item-row>div:hover {
+        border: 1px solid #f05656;
+        color: #f05656;
+        cursor: pointer;
+    }
+
+    .xylease-page .left .module .item .item-row>div:active {
+        background-color: #f05656;
+        color: #ffffff;
+    }
+
+    .xylease-page .left .module .item .item-row>div i {
+        font-size: 18px;
+    }
+
+    .xylease-page .left .module .item .item-row>div span {
+        display: block;
+        font-size: 10px;
+        margin-top: 5px;
+    }
+    
+    /** 中间预览 */
+    .xylease-page .center {
+        width: 44%;
+        border-top: #e6e6e6 solid 1px;
+        border-bottom: #e6e6e6 solid 1px;
+    }
+    
+    .xylease-page .center .preview {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .xylease-page .center .xylease-tool {
+        padding: 0px 20px;
+        border-bottom: #e6e6e6 solid 1px;
+        border-right: #e6e6e6 solid 1px;
+        background-color: #f3f3f3;
+        width: 100%;
+        height: 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center; 
+    }
+
+    .xylease-page .center .preview .page {
+        background-repeat: no-repeat;
+        background-position: 0 70px;
+        box-shadow: 0 0 20px #efeaea12;
+        background-size: 100% auto;
+        margin: 30px 15px;
+        width: 375px;
+        height: 880px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+
+    .xylease-page .center .preview .page::-webkit-scrollbar {
+        display: none;
+    }
+
+    .xylease-page .center .preview .page .draggable>div {
+        position: relative;
+    }
+
+    .xylease-page .center .preview .page .draggable>div:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: 1px dashed #f5f5f5;
+        cursor: move;
+    }
+
+    .xylease-page .center .preview .page .draggable>div:hover:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: 1px dashed #f05656;
+        cursor: move;
+    }
+
+    .xylease-page .center .preview .page .draggable>div.action:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: 1px solid #00a0e9;
+        cursor: move;
+        z-index: 8000;
+    }
+
+    .xylease-page .center .preview .page .draggable>div .sub-del {
+        display: none;
+        position: absolute !Important;
+        cursor: pointer !important;
+        z-index: 9000 !important;
+        right: 2px !Important;
+        top: 2px !Important;
+        height: 20px !Important;
+        width: 20px !Important;
+        text-align: center !Important;
+        line-height: 20px !Important;
+        background-color: rgba(0, 0, 0, .3) !Important;
+        border-radius: 50% !Important;
+    }
+
+    .xylease-page .center .preview .page .draggable>div:hover .sub-del {
+        display: block !Important;
+    }
+
+    .xylease-page .center .preview .page .navigation {
+        position: sticky;
+        background-size: 100% auto;
+        background-repeat: no-repeat;
+        top: 0;
+        z-index: 9999;
+    }
+
+    .xylease-page .center .preview .page .navigation .status-bar {
+        height: 26px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 10px;
+    }
+
+    .xylease-page .right {
+        background-color: #ffffff;
+        width: 28%;
+        border: 1px solid #e6e6e6;
+    }
+    .xylease-page .right .xylease-tabs .tab-content {
+        background-color: #ffffff;
+        padding: 20px;
+        overflow-x: hidden;
+    }
+
+    .xylease-page .right .nav-tabs {
+        padding: 10px 20px 0;
+        margin-bottom: 20px;
+    }
+
+    .xylease-page .right .xylease-module .tab-content {
+        background-color: #ffffff;
+        padding: 20px;
+        overflow-x: hidden;
+    }
+
+    .xylease-page .right .xylease-module .tab-content .panel {
+        background: #ffffff;
+    }
+
+    .xylease-page .right .xylease-module .tab-content .panel .panel-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .xylease-page .right .xylease-module .tab-content .panel .panel-heading .panel-title {
+        width: 95%;
+    }
+    
+    .xylease-layout>div {
+        overflow: hidden;
+    }
+
+    .xylease-layout .xylease-radio {
+        background: #fafafa;
+        margin: 8px;
+        border-radius: 8px;
+        margin-bottom: 0;
+        width: calc(100% - 8px);
+        height: 100px;
+        border: 1px solid #f5f5f5;
+        background-size: 70%;
+        background-repeat: no-repeat;
+        background-position: center center;
+    }
+
+    .xylease-layout .active .xylease-radio {
+        border: 1px solid #f05656;
+    }
+
+    .xylease-upload {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
+    .xylease-upload .form-control {
+        width: calc(100% - 70px);
+    }
+
+    .xylease-multi {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .xylease-multi input {
+        border: 0;
+        outline: none;
+    }
+
+    .xylease-multi select {
+        border: 0;
+        border-left: 1px solid #ccc;
+        background-color: #f5f5f5;
+        outline: none;
+        padding: 0 10px;
+        height: 29px;
+        width: 70px;
+        margin-right: -12px;
+    }
+
+    #color {
+        width: 32px;
+        height: 32px;
+        background-color: #fff;
+        cursor: default;
+        border-width: 1px;
+        margin-left: 10px;
+        border-style: solid;
+        border-color: #d2d6de;
+        border-image: initial;
+        padding: 0;
+    }
+
+    .xylease img{width: 100%;}
+
+    .grid {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .grid.grid-square {
+        overflow: hidden;
+    }
+
+    .grid.grid-square .cu-tag {
+        position: absolute;
+        right: 0;
+        top: 0;
+        border-bottom-left-radius: 3px;
+        padding: 3px 6px;
+        height: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .grid.grid-square>div {
+        margin-right: 10px;
+        margin-bottom: 10px;
+        border-radius: 3px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .grid.grid-square>div.bg-img img {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+    }
+
+
+    .grid.col-3.grid-square>div {
+        padding-bottom: calc((100% - 20px)/3);
+        height: 0;
+        width: calc((100% - 20px)/3);
+    }
+
+    .grid.col-4.grid-square>div {
+        padding-bottom: calc((100% - 30px)/4);
+        height: 0;
+        width: calc((100% - 30px)/4);
+    }
+
+    .grid.col-5.grid-square>div {
+        padding-bottom: calc((100% - 40px)/5);
+        height: 0;
+        width: calc((100% - 40px)/5);
+    }
+
+    .grid.col-3.grid-square>div:nth-child(3n),
+    .grid.col-4.grid-square>div:nth-child(4n),
+    .grid.col-5.grid-square>div:nth-child(5n) {
+        margin-right: 0;
+    }
+
+    .grid.col-3>div {
+        width: 33.33%;
+    }
+
+    .grid.col-4>div {
+        width: 25%;
+    }
+
+    .grid.col-5>div {
+        width: 20%;
+    }
+
+    
+
+    .xylease .image.layout-1 {
+        display: block;
+    }
+
+    .xylease .image.layout-2 {
+        flex-wrap: wrap;
+    }
+
+    .xylease .image.layout-2>div {
+        width: 49%;
+    }
+
+    .xylease .image.layout-2>div:nth-child(2n){margin-left: auto;}
+
+    .xylease .image.layout-3 {
+        display: block;
+    }
+    .xylease .image.layout-3>div {
+        width: 49%;
+        float: left;
+    }
+    .xylease .image.layout-3>div:nth-child(2){float: right;}
+    .xylease .image.layout-3>div:last-child{float: right;margin-top: 10px;}
+
+    .xylease .image.layout-4 {
+        display: block;
+    }
+    .xylease .image.layout-5>div {
+        width: 25%;
+    }
+    .xylease .image.layout-4>div {
+        width: 49%;
+        float: left;
+    }
+    .xylease .image.layout-4>div:nth-child(2){float: right;}
+    .xylease .image.layout-4>div:last-child{margin-top: 10px;}
+    .show-img{width: 120px;height: 120px;overflow: hidden;margin-top: 10px;}
+    .show-img img{width: 120px;height: 120px;}
+    .add-data{margin-bottom: 20px;}
+</style>
+
+<style>
+
+    /* 搜索组件 */
+    .search{display: flex;padding: 0 15px;}
+    .search i{font-size: 16px;margin-left: auto;}
+
+    /* 公告组件 */
+    .notice{padding: 5px 15px;border-radius:10px;line-height: 38px;}
+    .notice .l img{width: 20px;height: 20px;}
+    .notice .c{margin-left: 15px;border-left: solid 1px #333333;padding-left: 25px;height: 14px;line-height: 14px;margin-top: 12px;}
+    .notice .r{margin-left: auto;}
+
+    /* 轮播组件 */
+    .xylease .banner {position: relative;}
+    .xylease .banner .indicator {position: absolute;width: 100%;bottom: 10px;}
+    .xylease .banner .indicator .item {display: flex;justify-content: center;}
+    .xylease .banner .indicator .item span {width: 10px;height: 10px;border-radius: 50%;margin: 8px 2px;background-color: #eee;}
+    .xylease .banner .floatimg{position: absolute;bottom: -70px;left: 0;padding: 0 15px;}
+
+    /* 门店模块 */
+    .xylease .store{padding: 15px;}
+    .xylease .store .name{height: 40px;line-height: 40px;font-weight: bold; margin-bottom: 15px;}
+    .xylease .store .name img{width: 40px;height: 40px;border-radius: 10px;margin-right: 10px;}
+    .xylease .store .address i{font-size: 16px;margin-right: 4px;}
+    .xylease .store .bh{margin-top: 15px;}
+    .xylease .store .bh .l{height: 54px;line-height: 54px;font-size: 16px;}
+    .xylease .store .bh .r{margin-left: auto;}
+    .xylease .store .bh .r .icon{color: #fff;width: 28px;height: 28px;border-radius: 50%;text-align: center;line-height: 28px;}
+
+    /* 菜单组件 */
+    .xylease .menu .item .inner{width: 65%;margin: 15px auto;}
+    .xylease .menu .item .inner div{line-height: 25px;height: 25px;font-size: 12px; overflow: hidden;}
+    .xylease .menu .item .inner.lr{display: flex;width: 100%;text-align: center;padding:15px;margin: 0;justify-content: center;}
+    .xylease .menu .item .inner.lr img{margin-right: 10px;}
+    .xylease .menu .item .inner.ud div{margin-top: 8px;}
+
+    /* 商品组件 */
+    .xylease .goods-list .item{overflow: hidden;}
+    .xylease .goods-list .item .l{display: flex;}
+    .xylease .goods-list .item .l img{width: 95px;height: 95px;vertical-align: auto;}
+    .xylease .goods-list .item .r{margin-left: 10px;width: 245px;}
+    .xylease .goods-list .item .r .name{height: 36px;line-height: 18px;overflow: hidden;}
+    .xylease .goods-list .item .r .price{font-size: 16px;font-weight: bold;}
+    .xylease .goods-list .item .r .price span{font-size: 14px;}
+    .xylease .goods-list .item .r .bottom{margin-top: 6px;}
+    .xylease .goods-list .item .r .bottom span{font-size: 12px;border-radius: 5px;margin-right: 5px;color: #fff;padding: 4px 8px;}
+    .xylease .goods-list .item .r .buy{margin-left: auto;font-size: 16px; margin-right: 10px;}
+
+    .xylease .goods-list-grad{flex-wrap: wrap;}
+    .xylease .goods-list-grad .item:nth-child(2n){margin-left: auto;}
+
+    .xylease .goods-list-grad .item .name{height: 40px;line-height: 20px; margin-top: 5px;overflow: hidden;}
+    .xylease .goods-list-grad .item .price{font-weight: bold;font-size: 16px;}
+    .xylease .goods-list-grad .item .price span{font-size: 14px;}
+    .xylease .goods-list-grad .item .bottom{margin-top: 10px;}
+    .xylease .goods-list-grad .item .bottom span{font-size: 12px;border-radius: 5px;margin-right: 5px;color: #fff;padding: 4px 8px;}
+    .xylease .goods-list-grad .item .buy{margin-left: auto;font-size: 16px;}
+
+    /* 图片组件 */
+    .xylease .image { display: flex;overflow: hidden;}
+
+    /* 视频组件 */
+    .video{overflow: hidden;}
+    .video video{width: 100%;}
+
+    /* 钱包模块 */
+    .user-money div{width: 33%;text-align: center;}
+    .user-money .wallet{margin-left: auto;}
+    .user-money .wallet img{width: 25px;}
+    .user-money p{margin-bottom: 5px;}
+    .user-money .yue{padding-left: 15px;}
+    .user-money .yue .num{font-weight: bold;font-size: 18px;}
+
+    /* 用户卡片 */
+    .user-card .l{width: 54px;margin-right: 6px;}
+    .user-card .l img{width: 54px;height: 54px;border-radius: 27px;}
+    .user-card .c .nickname{font-weight: bold;font-size: 14px;line-height: 30px;}
+    .user-card .c .info{line-height: 18px;}
+    .user-card .c .info i{margin-left: 3px;}
+    .user-card .r{margin-left: auto;padding: 0px 10px;border-radius: 5px;height: 26px;margin-top: 14px;}
+    .user-card .r .hym{color: #fff;display: flex;height: 14px;line-height: 14px;font-size: 14px;margin-top: 6px;}
+    .user-card .r .hym i{font-size: 14px;margin-right: 5px;}
+    
+    /* 标题组件 */
+    .xylease .title,.menu-title{font-size: 16px;display: flex;font-weight: bold;line-height: 20px;}
+    .xylease .title .l,.menu-title .l{font-size: 16px;display: flex;width: 4px;border-radius: 4px;margin-right: 10px;height: 20px;}
+    .xylease .title .r,.menu-title .r{font-size: 12px; margin-left: auto;font-weight: normal;display: flex;}
+    .xylease .title .r i,.menu-title .r i{font-size: 20px;line-height: 20px;margin-left: 4px;}
+</style>

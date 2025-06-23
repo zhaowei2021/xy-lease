@@ -1,0 +1,33 @@
+<?php
+
+return [
+    'Id'             => 'ID',
+    'Type'           => '优惠券类型',
+    'Type reward'    => '满减',
+    'Type discount'  => '折扣',
+    'Store_id'       => '归属门店',
+    'Name'           => '优惠券名称',
+    'Count'          => '发放数量',
+    'Money'          => '优惠券面额',
+    'Leadcount'      => '已领取数量',
+    'Usedcount'      => '已使用数量',
+    'Islimit'        => '使用门槛',
+    'Islimit 0'      => '无门槛',
+    'Islimit 1'      => '有门槛',
+    'Atleast'        => '满多少元可使用',
+    'Isshow'         => '是否允许直接领取',
+    'Isshow 0'       => '否',
+    'Isshow 1'       => '是',
+    'Discount'       => '折扣',
+    'Discountlimit'  => '最多折扣金额',
+    'Validitytype'   => '过期类型',
+    'Validitytype 0' => '固定时间范围过期',
+    'Validitytype 1' => '领取之日起',
+    'Validitytype 2' => '长期有效',
+    'Endusetime'     => '使用结束时间',
+    'Fixedterm'      => '有效天数',
+    'Maxfetch'       => '每人最大领取个数',
+    'Weight'         => '权重',
+    'Createtime'     => '创建时间',
+    'Updatetime'     => '修改时间'
+];

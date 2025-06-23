@@ -1,0 +1,402 @@
+<div id="configSet" class="conig-set form-horizontal" v-cloak>
+
+    
+    <div v-if="type=='xylease'">
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">用户默认头像：</label>
+            <div class="col-xs-12 col-sm-7">
+                <div class="flex">
+                    <input class="form-control" type="text" v-model="detailForm.useravatar">
+                    <button class="btn btn-success" @click="attSelect('useravatar')"><i class="fa fa-upload"></i>选择图片</button>
+                </div>
+                <div class="pview" v-if="detailForm.useravatar">
+                    <img :src="detailForm.useravatar" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">用户协议：</label>
+            <div class="col-xs-12 col-sm-7">
+                <div class="flex">
+                    <input class="form-control" type="text" v-model="detailForm.agreement">
+                    <button class="btn btn-success" @click="articleSelect('agreement')"><i class="fa fa-search"></i> 选择文章</button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">隐私政策：</label>
+            <div class="col-xs-12 col-sm-7">
+                <div class="flex">
+                    <input class="form-control" type="text" v-model="detailForm.privacy">
+                    <button class="btn btn-success" @click="articleSelect('privacy')"><i class="fa fa-search"></i> 选择文章</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div v-if="type=='lease'">
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">发货方式：</label>
+            <div class="col-xs-12 col-sm-7">
+                <div class="checkbox">
+                    <label><input v-model="detailForm.deliverytype" type="checkbox" value="pickup" />门店自提</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">可选租赁类型：</label>
+            <div class="col-xs-12 col-sm-7">
+                <div class="checkbox">
+                    <label><input v-model="detailForm.leasetype" type="checkbox" value="hour" />小时租</label>
+                    <label><input v-model="detailForm.leasetype" type="checkbox" value="days" />全日租</label>
+                    <label><input v-model="detailForm.leasetype" type="checkbox" value="night" />过夜租</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">默认租赁类型:</label>
+            <div class="col-xs-12 col-sm-7">
+                <div class="radio">
+                    <label><input v-model="detailForm.defaultlease" type="radio" value="hour" />小时租</label>
+                    <label><input v-model="detailForm.defaultlease" type="radio" value="days" />全日租</label>
+                    <label><input v-model="detailForm.defaultlease" type="radio" value="night" />过夜租</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">小时租开始时间：</label>
+            <div class="col-xs-12 col-sm-7">
+                <div class="flex">
+                    <input class="form-control" type="text" v-model="detailForm.hourzt">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">小时租提前取货小时：</label>
+            <div class="col-xs-12 col-sm-7">
+                <div class="flex">
+                    <input class="form-control" type="number" v-model="detailForm.hourst">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">小时租起租小时：</label>
+            <div class="col-xs-12 col-sm-7">
+                <div class="flex">
+                    <input class="form-control" type="number" v-model="detailForm.starthour">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">全日租最早取货时间：</label>
+            <div class="col-xs-12 col-sm-7">
+                <div class="flex">
+                    <input class="form-control datetimepicker" data-date-format="HH:ss" type="text" v-model="detailForm.daysst">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">过夜租最早取货时间：</label>
+            <div class="col-xs-12 col-sm-7">
+                <div class="flex">
+                    <input class="form-control datetimepicker" data-date-format="HH:ss" type="text" v-model="detailForm.nightst">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">过夜租次日归还时间</label>
+            <div class="col-xs-12 col-sm-7">
+                <div class="flex">
+                    <input class="form-control datetimepicker" data-date-format="HH:ss" type="text" v-model="detailForm.nightet">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">租赁规则：</label>
+            <div class="col-xs-12 col-sm-7">
+                <div class="flex">
+                    <input class="form-control" type="text" v-model="detailForm.rule">
+                    <button class="btn btn-success" @click="articleSelect('rule')"><i class="fa fa-search"></i> 选择文章</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div v-if="type=='withdraw'">
+        
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">转账方式：</label>
+            <div class="col-xs-12 col-sm-7">
+
+                <div class="checkbox">
+                    <label><input v-model="detailForm.methods" type="checkbox" value="bank" />银行卡</label>
+                    <label><input v-model="detailForm.methods" type="checkbox" value="alipay" />支付宝</label>  
+                </div>
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">手续费：</label>
+            <div class="col-xs-12 col-sm-7">
+                <div class="flex">
+                    <input type="number" v-model="detailForm.rate" placeholder="请输入手续费" class="form-control" />
+                    <div class="control-label bfb" >%</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">最小提现金额：</label>
+            <div class="col-xs-12 col-sm-7">
+                <div class="flex">
+                    <input type="number" v-model="detailForm.min" placeholder="请输入最小提现金额" class="form-control" />
+                    <div class="control-label bfb" >元</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">最大提现金额：</label>
+            <div class="col-xs-12 col-sm-7">
+                <div class="flex">
+                    <input type="number" v-model="detailForm.max" placeholder="请输入最大提现金额" class="form-control" />
+                    <div class="control-label bfb" >元</div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+
+    <div v-if="type=='distribution'">
+        
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">是否开启分销:</label>
+            <div class="col-xs-12 col-sm-7">
+                <div class="radio">
+                    <label><input v-model="detailForm.open" type="radio" value="1" checked />开启</label> 
+                    <label><input v-model="detailForm.open" type="radio" value="0" />关闭</label> 
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">是否开启分销:</label>
+            <div class="col-xs-12 col-sm-7">
+                <div class="radio">
+                    <label><input v-model="detailForm.isdis" type="radio" value="1" checked />人人分销</label> 
+                    <label><input v-model="detailForm.isdis" type="radio" value="2" />后台指定</label> 
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">绑定下级条件：</label>
+            <div class="col-xs-12 col-sm-7">
+                <div class="radio">
+                    <label><input v-model="detailForm.child_condition" type="radio" value="share" checked />首次通过分享进入</label> 
+                    <label><input v-model="detailForm.child_condition" type="radio" value="pay" />首次下单</label> 
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">分销层级</label>
+            <div class="col-xs-12 col-sm-7">
+                <div class="radio">
+                    <label><input v-model="detailForm.level" type="radio" value="1" checked />一级分销</label> 
+                    <label><input v-model="detailForm.level" type="radio" value="2" />二级分销</label> 
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+    <div v-if="type=='share'">
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">分享标题：</label>
+            <div class="col-xs-12 col-sm-7">
+                <input type="text" v-model="detailForm.title" placeholder="请输入分享标题" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">默认分享图片：</label>
+            <div class="col-xs-12 col-sm-5">
+                <div class="flex">
+                    <input class="form-control" type="text" v-model="detailForm.image">
+                    <button class="btn btn-success" @click="attSelect('image')"><i class="fa fa-upload"></i>选择图片</button>
+                </div>
+                <div class="pview" v-if="detailForm.image">
+                    <img :src="detailForm.image" />
+                </div>
+            </div>
+            <label class="control-label col-xs-12 col-sm-2">600px * 480px</label>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">推广海报背景图：</label>
+            <div class="col-xs-12 col-sm-5">
+                <div class="flex">
+                    <input class="form-control" type="text" v-model="detailForm.user_poster_bg">
+                    <button class="btn btn-success" @click="attSelect('user_poster_bg')"><i class="fa fa-upload"></i>选择图片</button>
+                </div>
+                <div class="pview" v-if="detailForm.user_poster_bg">
+                    <img :src="detailForm.user_poster_bg" />
+                </div>
+            </div>
+            <label class="control-label col-xs-12 col-sm-2">750px * 1250px</label>
+        </div>
+    </div>
+
+
+    <div v-if="type=='wxminiprogram'">
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">AppID：</label>
+            <div class="col-xs-12 col-sm-7">
+                <input type="text" v-model="detailForm.app_id" placeholder="请输入AppID" class="form-control"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">AppSecret：</label>
+            <div class="col-xs-12 col-sm-7">
+                <input type="text" v-model="detailForm.secret" placeholder="请输入AppSecret" class="form-control"/>
+            </div>
+        </div>
+    </div>
+
+    <div v-if="type=='wechat'">
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">商户号：</label>
+            <div class="col-xs-12 col-sm-7">
+                <input type="text" v-model="detailForm.mch_id" placeholder="请输入商户号" class="form-control"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">支付密钥：</label>
+            <div class="col-xs-12 col-sm-7">
+                <input type="text" v-model="detailForm.key" placeholder="请输入支付密钥" class="form-control"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">商户证书：</label>
+            <div class="col-xs-12 col-sm-7">
+                <div class="flex">
+                    <input class="form-control" type="text" v-model="detailForm.cert_client">
+                    <button class="btn btn-success" @click="attSelect('cert_client')"><i class="fa fa-search"></i>选择证书</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">商户Key证书：</label>
+            <div class="col-xs-12 col-sm-7">
+                <div class="flex">
+                    <input class="form-control" type="text" v-model="detailForm.cert_key">
+                    <button class="btn btn-success" @click="attSelect('cert_key')"><i class="fa fa-search"></i>选择证书</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div v-if="type=='appstyle'">
+
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">主色调：</label>
+            <div class="col-xs-12 col-sm-7 form-inline">
+                <input type="text" class="form-control" v-model="detailForm.mainColor"> 
+                <input id="color" class="form-control" type="color" v-model="detailForm.mainColor">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">导航栏背景颜色：</label>
+            <div class="col-xs-12 col-sm-7 form-inline">
+                <input type="text" class="form-control" v-model="detailForm.navBarBgColor"> 
+                <input id="color" class="form-control" type="color" v-model="detailForm.navBarBgColor">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">导航栏字体颜色：</label>
+            <div class="col-xs-12 col-sm-7 form-inline">
+                <select class="form-control" v-model="detailForm.navBarFrontColor">
+                    <option value="#ffffff">白色</option>
+                    <option value="#000000">黑色</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">页面背景颜色：</label>
+            <div class="col-xs-12 col-sm-7 form-inline">
+                <input type="text" class="form-control" v-model="detailForm.pageBgColor"> 
+                <input id="color" class="form-control" type="color" v-model="detailForm.pageBgColor">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">文字主色调：</label>
+            <div class="col-xs-12 col-sm-7 form-inline">
+                <input type="text" class="form-control" v-model="detailForm.textMainColor"> 
+                <input id="color" class="form-control" type="color" v-model="detailForm.textMainColor">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">文字浅色调：</label>
+            <div class="col-xs-12 col-sm-7 form-inline">
+                <input type="text" class="form-control" v-model="detailForm.textLightColor"> 
+                <input id="color" class="form-control" type="color" v-model="detailForm.textLightColor">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">价格文字颜色：</label>
+            <div class="col-xs-12 col-sm-7 form-inline">
+                <input type="text" class="form-control" v-model="detailForm.textPriceColor"> 
+                <input id="color" class="form-control" type="color" v-model="detailForm.textPriceColor">
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3">页面模块背景颜色：</label>
+            <div class="col-xs-12 col-sm-7 form-inline">
+                <input type="text" class="form-control" v-model="detailForm.pageModuleBgColor"> 
+                <input id="color" class="form-control" type="color" v-model="detailForm.pageModuleBgColor">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group" style="position: fixed; bottom: -15px;left: 0;width: 110%;background-color: #ecf0f1;padding: 15px 20%;">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-7">
+            <div @click="submitFrom('yes')" class="btn btn-primary btn-embossed">{:__('OK')}</div>
+            <div @click="submitFrom" class="btn btn-default btn-embossed">{:__('Cancel')}</div>
+        </div>
+    </div>
+</div>
+
+<style>
+    [v-cloak]{
+        display: none;
+    }
+    .conig-set{padding-bottom: 100px;}
+    .flex{display: flex;}
+    .bfb{padding: 0 15px;background-color: #f4f4f4;}
+    button{margin-left: 10px;}
+    .pview{max-width: 200px;background: #f2f2f2;margin-top: 15px;}
+    .pview img{width: 100%;}
+    #color {
+        width: 31px;
+        height: 31px;
+        background-color: #fff;
+        cursor: default;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #d2d6de;
+        border-image: initial;
+        padding: 0;
+    }
+</style>

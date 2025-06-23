@@ -1,0 +1,214 @@
+<style>
+    .flex{display: flex;}
+    .nums{margin: 20px 0 30px;}
+    .sales-box{padding: 15px 20px; margin-bottom: 20px;background: #f1f4f6; border-radius: 5px;}
+    .sales-box h4{font-size: 18px; line-height: 34px;color: #232529;}
+    .sales-box h4 a{float: right;font-size: 14px;font-weight: normal;}
+    .sales-box h3{font-size: 30px;font-weight: bold;}
+    .sales-box .top{margin-top: 20px;}
+    .sales-box p{font-size: 16px;color: #8a8d99;}
+    .sales-box .title{font-size: 18px;color: #8a8d99;}
+    .sales-box .title strong{margin-left: 3px;}
+    .sales-box .btm{margin-top: 30px;}
+    .sales-box .btm .item{width: 50%;text-align: center;}
+    .sales-box .btm .sx{width: 15%;}
+    .sales-box .btm .r{border-left: 1px solid rgb(220, 223, 230)}
+    .sales-box h5{font-size: 24px;font-weight: bold;}
+    .pln{padding-left: 0;}
+
+    .sm-st-icon {
+        width: 60px;
+        height: 60px;
+        display: inline-block;
+        line-height: 60px;
+        text-align: center;
+        font-size: 30px;
+        background: #eee;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        margin-right: 10px;
+        color: #fff;
+    }
+
+    .sm-st{display: flex;}
+
+    .sm-st-info {
+        padding-top: 2px;
+    }
+
+    .sm-st-info span {
+        display: block;
+        font-size: 24px;
+        font-weight: 600;
+    }
+    
+    .orange {
+        background: #fa8564 !important;
+    }
+
+    .red {
+        background: #F05050 !important;
+    }
+
+    .green {
+        background: #86ba41 !important;
+    }
+
+    .pink {
+        background: #AC75F0 !important;
+    }
+
+    .yellow {
+        background: #fdd752 !important;
+    }
+
+    .bule {
+        background: #23b7e5 !important;
+    }
+    
+</style>
+
+<div class="panel panel-default panel-intro">
+    <div class="panel-heading">
+        {:build_heading(null, false)}
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#one" data-toggle="tab">{:__('Dashboard')}</a></li>
+        </ul>
+    </div>
+    <div class="panel-body">
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade active in" id="one">
+
+                <div class="row nums">
+                    
+                    <div class="col-sm-2 col-xs-6">
+                        <div class="sm-st clearfix">
+                            <span class="sm-st-icon pink"><i class="fa fa-rmb"></i></span>
+                            <div class="sm-st-info">
+                                <span>{$total1}</span>
+                                总消费
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 col-xs-6">
+                        <div class="sm-st clearfix">
+                            <span class="sm-st-icon yellow"><i class="fa fa-archive"></i></span>
+                            <div class="sm-st-info">
+                                <span>{$total2}</span>
+                                总充值
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 col-xs-6 pln">
+                        <div class="sm-st clearfix">
+                            <span class="sm-st-icon red"><i class="fa fa-users"></i></span>
+                            <div class="sm-st-info">
+                                <span>{$total3}</span>
+                                会员数
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-sm-2 col-xs-6">
+                        <div class="sm-st clearfix">
+                            <span class="sm-st-icon green"><i class="fa fa-id-badge"></i></span>
+                            <div class="sm-st-info">
+                                <span>{$total4}</span>
+                                员工数
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 col-xs-6">
+                        <div class="sm-st clearfix">
+                            <span class="sm-st-icon orange"><i class="fa fa-th-large"></i></span>
+                            <div class="sm-st-info">
+                                <span>{$total5}</span>
+                                待退押金
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 col-xs-6">
+                        <div class="sm-st clearfix">
+                            <span class="sm-st-icon bule"><i class="fa fa-check-circle"></i></span>
+                            <div class="sm-st-info">
+                                <span>{$total6}</span>
+                                商品数
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-lg-6 col-xs-6">
+                        <div class="sales-box">
+                            <h4>租赁订单 <a class="btn-addtabs" href="{:url('/xylease/order/order/index?ref=addtabs')}">查看 <i class="fa fa-angle-right"></i></a></h4>
+                            <div class="top text-center">
+                                <div class="title">累计</div>
+                                <div>
+                                    <h3>¥{$orderTotalMoney}</h3>
+                                    <p>(订单：{$orderTotalNum})</p>
+                                </div>
+                            </div>
+                            <div class="flex btm">
+                                <div class="item">
+                                    <div class="title">今日<strong>¥{$orderTodayMoney}</strong></div>
+                                    <p>(订单：{$orderTodayNum})</p>
+                                </div>
+                                <div class="item r">
+                                    <div class="title">本月<strong>¥{$orderMonthMoney}</strong></div>
+                                    <p>(订单：{$orderMonthNum})</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="col-lg-6 col-xs-6">
+                        <div class="sales-box">
+                            <h4>充值订单<a class="btn-addtabs" href="{:url('/xylease/recharge/order/index?ref=addtabs')}">查看 <i class="fa fa-angle-right"></i></a></h4>
+                            <div class="top text-center">
+                                <div class="title">累计</div>
+                                <div>
+                                    <h3>¥{$rechargeTotalMoney}</h3>
+                                    <p>(订单：{$rechargeTotalNum})</p>
+                                </div>
+                            </div>
+                            <div class="flex btm">
+                                <div class="item">
+                                    <div class="title">今日<strong>¥{$rechargeTodayMoney}</strong></div>
+                                    <p>(订单：{$rechargeTodayNum})</p>
+                                </div>
+                                <div class="item r">
+                                    <div class="title">本月<strong>¥{$rechargeMonthMoney}</strong></div>
+                                    <p>(订单：{$rechargeMonthNum})</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <section class="col-lg-6 connectedSortable">
+                        <div class="sales-box">
+                            <h4>订单趋势 (近七日)</h4>
+                            <div class="tab-content no-padding">
+                                <div class="chart tab-pane active" id="order-chart" style="position: relative; height: 300px;"></div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="col-lg-6 connectedSortable">
+                        <div class="sales-box">
+                            <h4>销售额 (元)</h4>
+                            <div class="tab-content no-padding">
+                                <div class="chart tab-pane active" id="sales-chart" style="position: relative; height: 300px;"></div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+

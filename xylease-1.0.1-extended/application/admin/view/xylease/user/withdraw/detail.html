@@ -1,0 +1,43 @@
+
+<div class="row">
+
+	<div class="col-md-12">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="col-sm-4">
+					<p><span>提现状态：</span><strong>{$row.status_text}</strong> </p>
+					<p><span>提现金额：</span><strong>¥{$row.applymoney}</strong> </p>
+					<p><span>手续费比率：</span><strong>¥{$row.rate}</strong> </p>
+					<p><span>手续费：</span><strong>¥{$row.servicemoney}</strong> </p>
+					<p><span>实际转账金额：</span><strong>¥{$row.money}</strong> </p>
+					<p><span>真实姓名：</span><strong>{$row.realname}</strong> </p>
+					<p><span>手机号：</span><strong>{$row.mobile}</strong> </p>
+					<p><span>提现账户：</span><strong>{$row.accountname}</strong> </p>
+					<p><span>收款账号：</span><strong>{$row.accountno}</strong> </p>
+
+					{if($row.status != 0)}
+						<p><span>审核时间：</span><strong>{$row.audittime|datetime}</strong> </p>
+					{/if}
+
+					{if($row.status == -1)}
+						<p><span>拒绝原因：</span><strong>{$row.refusereason}</strong> </p>
+					{/if}
+
+					{if($row.status == 2)}
+						<p><span>确认转账时间：</span><strong>{$row.paymenttime|datetime}</strong> </p>
+					{/if}
+				</div>
+			</div>
+		</div>
+
+		
+	</div>
+	
+</div>
+
+<div class="hide layer-footer">
+	<label class="control-label col-xs-12 col-sm-2"></label>
+	<div class="col-xs-12 col-sm-8">
+		<button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();">{:__('Close')}</button>
+	</div>
+</div>

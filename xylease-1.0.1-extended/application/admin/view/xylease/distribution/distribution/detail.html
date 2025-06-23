@@ -1,0 +1,208 @@
+
+<div class="row">
+
+	<div class="col-md-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">分销商信息</div>
+			<div class="panel-body dinfo">
+				<div class="col-sm-4">
+					<div class="item flex">
+                        <div class="name">会员信息：</div>
+                        <div class="info flex">
+                            <img src="{$row.user.avatar}" width="50px" height="50px" />
+                            <div class="ml-10">
+                                <p>ID:<span id="distribution_id">{$row.user.id}</span></p>
+                                <p>{$row.user.nickname}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item flex">
+                        <div class="name">分销等级：</div>
+                        <div class="info">{$row.level.name}</div>
+                    </div>
+                    
+                    <div class="item flex">
+                        <div class="name">上级分销商：</div>
+                        <div class="info">
+                            {if($row.parent.id)}
+                                {$row.parent.nickname}（ID:{$row.parent.id}
+                            {else}
+                                无
+                            {/if}
+                        </div>
+                    </div>
+                    
+                    <div class="item flex">
+                        <div class="name">当前状态：</div>
+                        <div class="info">{$row.status_text}</div>
+                    </div>
+                    
+					
+				</div>
+
+
+				<div class="col-sm-4" style="border-left: solid 1px #e6e6e6;">
+                    <div class="item flex">
+                        <div class="name">总佣金：</div>
+                        <div class="info"> {$row.total_commission} 元</div>
+                        
+                    </div>
+					<div class="item flex">
+                        <div class="name">当前佣金：</div>
+                        <div class="info"> {$row.commission} 元</div>
+                    </div>
+                    <div class="item flex">
+                        <div class="name">已提现佣金：</div>
+                        <div class="info"> {$row.withdrawn_commission} 元</div>
+                    </div>
+                    <div class="item flex">
+                        <div class="name">提现中佣金：</div>
+                        <div class="info"> {$row.withdrawing_commission} 元</div>
+                    </div>
+                    <div class="item flex">
+                        <div class="name">佣金比例：</div>
+                        <div class="info">
+                            一级（{$row.level.commission_one}%）
+                            二级（{$row.level.commission_two}%）
+                        </div>
+                    </div>
+                    <div class="item flex">
+                        <div class="name">团队人数：</div>
+                        <div class="info">
+                            一级（{$row.teams.one_child_num}）
+                            二级（{$row.teams.two_child_num}）
+                        </div>
+                    </div>
+				</div>
+			</div>
+		</div>
+
+        <div class="panel panel-default">
+                <ul class="nav nav-tabs" style="padding: 10px 0 0 10px;">
+                    <li class="active"><a href="#first" data-toggle="tab">团队成员</a></li>
+                    <li><a href="#second" data-toggle="tab">佣金明细</a></li>
+                    <li><a href="#three" data-toggle="tab">分销订单</a></li>
+                </ul>
+            <div class="panel-body">
+                <div id="myTabContent" class="tab-content">
+                    <div class="tab-pane fade active in" id="first">
+                        <div id="toolbar1" class="toolbar">
+                            {:build_toolbar('refresh')}
+                        </div>
+                        <table id="table1" class="table table-striped table-bordered table-hover" width="100%">
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="second">
+                        <div id="toolbar2" class="toolbar">
+                            {:build_toolbar('refresh')}
+                        </div>
+                        <table id="table2" class="table table-striped table-bordered table-hover" width="100%">
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="three">
+                        <div id="toolbar3" class="toolbar">
+                            {:build_toolbar('refresh')}
+                        </div>
+                        <table id="table3" class="table table-striped table-bordered table-hover" width="100%">
+                        </table>
+                        <script type="text/html" id="itemtpl">
+                            <% if(i == 0){ %>
+                                <div class="order-head">
+                                    <div class="col-sm-2 text-center obr">订单类型</div>
+                                    <div class="col-sm-4 flex obr">购买详情</div>
+                                    <div class="col-sm-1 flex obr">订单金额</div>
+                                    <div class="col-sm-2 obr">买家信息</div>
+                                    <div class="col-sm-2 text-center obr">分佣金额</div>
+                                    <div class="col-sm-1 text-center obr">佣金状态</div>
+                                </div>
+                            <% } %>
+                        
+                            <div class="col-sm-12 mt-15">
+                                <div class="item-top">
+                                    <span>订单号：<%=item.ordersn%></span>
+                                    <span style="margin-left:100px;">下单时间：<%=Moment(item.createtime*1000).format("YYYY-MM-DD HH:mm:ss")%></span>
+                                    <span style="margin-left:100px;">结算时间：<%=Moment(item.settle_time*1000).format("YYYY-MM-DD HH:mm:ss")%></span>
+                                </div>
+                                <div class="item-content">
+                                    
+                                    <div class="col-sm-2 vhc obr flex">
+                                        <%=item.ordertype_text%>
+                                    </div>
+                    
+                                    <div class="col-sm-4 vhc obr flex" style="padding: 15px;">
+                    
+                                        <% if(item.ordertype == 'order'){ %>
+                                            <div class="order_img ">
+                                                <a href="javascript:;"><img class="img-md img-center" src="<%=cdnurl(item.order_info.packagethumbimage)%>" alt="<%=item.order_info.packagename%>"></a>
+                                            </div>
+                                            <div style="margin-left: 10px;">
+                                                <%=item.order_info.packagename%>
+                                            </div>
+                                        <% } %>
+                    
+                    
+                                    </div>
+                    
+                                    <div class="col-sm-1 vhc obr flex">
+                                        <%=item.totalfee%>
+                                    </div>
+                                    <div class="col-sm-2 vhc obr flex">
+                    
+                                        <div class="col-sm-12" style="padding: 0;">
+                                            <%=item.buyer.nickname%>(ID:<%=item.buyer.id%>)<br/>
+                                            <%=item.buyer.mobile%>
+                                        </div>
+                    
+                                    </div>
+                    
+                                    <div class="col-sm-2 vhc obr flex">
+                                        <% if(item.one_commission > 0){ %>
+                                            <samp class="text-red">￥<%=item.one_commission%></samp>
+                                        <% } %>
+                                        <% if(item.two_commission > 0){ %>
+                                            <samp class="text-red">￥<%=item.two_commission%></samp>
+                                        <% } %>
+                                    </div>
+                    
+                    
+                                    <div class="col-sm-1 vhc obr flex">
+                                        <%=item.status_text%>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </script>
+                        
+                        <style>
+                            .flex{display: flex;flex-wrap: wrap;}
+                            .mt-15{margin-top: 15px;}
+                            .ctr{text-align: right;line-height: 35px;font-weight: bold;}
+                            .vhc{padding: 15px;height: 100%;align-items: center;justify-content: center;}
+                            .order-head{background: #FFFCF7;padding: 0px 15px;width: 100%;font-weight: bold;margin-top: 5px;}
+                            .order-head div{padding: 15px;}
+                            .item-top{background: #FFFCF7;padding: 10px;width: 100%;border: 1px solid #e6e6e6;}
+                            .item-content{border: 1px solid #e6e6e6;border-top: none;}
+                            .obr{border-right: 1px solid #e6e6e6;}
+                            .item-goods{margin-bottom: 10px;}
+                            .item-goods:last-child{margin-bottom: 0;}
+                        </style>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+	</div>
+	
+   
+	
+</div>
+
+
+
+<style>
+    .flex{display: flex;}
+    .dinfo .item{margin-bottom: 10px;}
+    .dinfo .item .name{width: 120px;text-align: right;margin-right: 10px;}
+    .ml-10{margin-left: 5px;}
+</style>

@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'Id'                => 'ID',
+    'User_id'           => '用户id',
+    'Type'              => '类型',
+    'Type coach'       => '老师',
+    'Type distribution' => '分销商',
+    'Withdraw_sn'       => '提现交易号',
+    'Apply_money'       => '提现金额',
+    'Rate'              => '手续费比率',
+    'Service_money'     => '手续费',
+    'Money'             => '实际转账金额',
+    'Audit_time'        => '审核时间',
+    'Payment_time'      => '转账时间',
+    'Realname'          => '真实姓名',
+    'Mobile'            => '手机号',
+    'Account_name'      => '提现账户',
+    'Account_type'      => '提现方式',
+    'Account_no'    => '收款账号',
+    'Refuse_reason'     => '拒绝理由',
+    'Fail_reason'       => '失败原因',
+    'Memo'              => '备注',
+    'Status'            => '状态',
+    'Createtime'        => '申请时间',
+];

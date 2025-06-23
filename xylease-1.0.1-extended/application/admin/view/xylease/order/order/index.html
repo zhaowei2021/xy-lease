@@ -1,0 +1,225 @@
+<div class="panel panel-default panel-intro">
+    
+    <div class="panel-heading">
+        {:build_heading(null,FALSE)}
+        <ul class="nav nav-tabs" data-field="status">
+            <li class="{:$Think.get.status === null ? 'active' : ''}"><a href="#t-all" data-value="" data-toggle="tab">{:__('All')}</a></li>
+            {foreach name="statusList" item="vo"}
+            <li class="{:$Think.get.status === (string)$key ? 'active' : ''}"><a href="#t-{$key}" data-value="{$key}" data-toggle="tab">{$vo}</a></li>
+            {/foreach}
+        </ul>
+    </div>
+
+
+    <div class="panel-body">
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade active in" id="one">
+                <div class="widget-body no-padding">
+                    <div id="toolbar" class="toolbar">
+                        <a href="javascript:;" class="btn btn-primary btn-refresh" title="{:__('Refresh')}" ><i class="fa fa-refresh"></i> </a>
+                        <a href="javascript:;" class="btn btn-success btn-add {:$auth->check('xylease/order/order/add')?'':'hide'}" title="{:__('Add')}" ><i class="fa fa-plus"></i> {:__('Add')}</a>
+                        <a href="javascript:;" class="btn btn-success btn-edit btn-disabled disabled {:$auth->check('xylease/order/order/edit')?'':'hide'}" title="{:__('Edit')}" ><i class="fa fa-pencil"></i> {:__('Edit')}</a>
+                        <a href="javascript:;" class="btn btn-danger btn-del btn-disabled disabled {:$auth->check('xylease/order/order/del')?'':'hide'}" title="{:__('Delete')}" ><i class="fa fa-trash"></i> {:__('Delete')}</a>
+                        
+
+                        <div class="dropdown btn-group {:$auth->check('xylease/order/order/multi')?'':'hide'}">
+                            <a class="btn btn-primary btn-more dropdown-toggle btn-disabled disabled" data-toggle="dropdown"><i class="fa fa-cog"></i> {:__('More')}</a>
+                            <ul class="dropdown-menu text-left" role="menu">
+                                {foreach name="statusList" item="vo"}
+                                <li><a class="btn btn-link btn-multi btn-disabled disabled" href="javascript:" data-params="status={$key}">{:__('Set status to ' . $key)}</a></li>
+                                {/foreach}
+                            </ul>
+                        </div>
+
+                        
+                    </div>
+                    <table id="table" class="table table-striped table-bordered table-hover table-nowrap"
+                           data-operate-edit="{:$auth->check('xylease/order/order/edit')}"
+                           data-operate-del="{:$auth->check('xylease/order/order/del')}"
+                           width="100%">
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script id="customformtpl" type="text/html">
+        <!--form表单必须添加form-commsearch这个类-->
+        <form action="" class="form-commonsearch">
+            <div style="border-radius:2px;margin-bottom:10px;background:#f7f7f7;padding:15px;border:1px solid #e6e6e6;">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-2 col-md-3">
+                        <div class="form-group">
+                            <div class="col-sm-4 ctr">订单号</div>
+                            <input class="operate" type="hidden" data-name="ordersn" value="like"/>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="text" name="ordersn" placeholder="" value=""/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-2 col-md-3">
+                        <div class="form-group">
+                            <div class="col-sm-4 ctr">联系人</div>
+                            <input class="operate" type="hidden" data-name="consignee" value="like"/>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="text" name="consignee" placeholder="" value=""/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-2 col-md-3">
+                        <div class="form-group">
+                            <div class="col-sm-4 ctr">联系电话</div>
+                            <input class="operate" type="hidden" data-name="mobile" value="like"/>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="text" name="mobile" placeholder="" value=""/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-2 col-md-3">
+                        <div class="form-group">
+                            <div class="col-sm-4 ctr">订单状态</div>
+                            <input type="hidden" class="operate" data-name="status" value="="/>
+                            <div class="col-sm-8">
+                            <!--@formatter:off-->
+                            <select id="c-status" class="form-control selectpicker" name="status" style="height:31px;">
+                                <option value="">全部</option>
+                                {foreach name="statusList" item="vo"}
+                                <option value="{$key}">{$vo}</option>
+                                {/foreach}
+                            </select>
+                            <!--@formatter:on-->
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row mt-15">
+
+
+                    <div class="col-xs-12 col-sm-2 col-md-3">
+                        <div class="form-group">
+                            <div class="col-sm-4 ctr">支付方式</div>
+                            <input type="hidden" class="operate" data-name="paytype" value="="/>
+                            <div class="col-sm-8">
+                            <!--@formatter:off-->
+                            <select id="c-paytype" class="form-control selectpicker" name="paytype" style="height:31px;">
+                                <option value="">全部</option>
+                                {foreach name="payTypeList" item="vo"}
+                                <option value="{$key}" {in name="key" value="" }selected{/in}>{$vo}</option>
+                                {/foreach}
+                            </select>
+                            <!--@formatter:on-->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-xs-12 col-sm-3 col-md-3">
+                        <div class="form-group">
+                            <div class="col-sm-4 ctr">创建时间</div>
+                            <input type="hidden" class="operate" data-name="createtime" value="RANGE"/>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control datetimerange" name="createtime" value=""/>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row mt-15 sub">
+                    <input type="submit" class="btn btn-success" value="搜索" />
+                    <input type="reset" class="btn btn-primary" value="重置" />
+                    <a href="javascript:;" class="btn btn-success btn-export" title="{:__('Export')}" id="btn-export-file"><i class="fa fa-download"></i> {:__('Export')}</a>
+                    
+                </div>
+            </div>
+        </form>
+    </script>
+
+
+    <script type="text/html" id="itemtpl">
+        <% if(i == 0){ %>
+            <div class="order-head">
+                <div class="col-sm-4 flex obr">
+                    <span>租赁</span>
+                    <span style="margin-left: auto;">单价</span>
+                </div>
+                <div class="col-sm-3 obr">客户信息</div>
+                <div class="col-sm-2 text-center obr">支付信息</div>
+                <div class="col-sm-1 text-center obr">订单状态</div>
+                <div class="col-sm-2 text-center">操作</div>
+            </div>
+        <% } %>
+    
+        <div class="col-sm-12 mt-15" style="padding: 0;">
+            <div class="item-top">
+                <span>订单号：<%=item.ordersn%></span>
+                <span style="margin-left:100px;float: right;">下单时间：<%=Moment(item.createtime*1000).format("YYYY-MM-DD HH:mm:ss")%></span>
+            </div>
+            <div class="item-content">
+                <div class="col-sm-4 vhc obr" style="padding: 0;">
+
+                    <% for(var i = 0 ; i < item.item.length ; i ++){ %>
+                        <% var goods = item.item[i]; %>
+                        <div class="item-goods flex">
+                            <div class="order_img ">
+                                <a href="javascript:;"><img class="img-md img-center" src="<%=cdnurl(goods.goodsimage)%>" alt="<%=item.goodsname%>"></a>
+                            </div>
+                            <div style="margin-left: auto;text-align: right;">
+                                <p>¥<%=goods.price%></p>
+                                <p><%=goods.buynum%>件</p>
+                            </div>
+                        </div>
+                    <% } %>
+                   
+                </div>
+
+                <div class="col-sm-3 vhc obr flex">
+                    <div class="col-sm-12" style="padding: 0;">
+                        <p>购买会员：<%=item.user.nickname %>（ID: <%=item.user.id %>）</p>
+                        <p>租赁时间：<%=item.date %> <%=item.leasetime %></p>
+                        <p>联系人：<%=item.consignee %></p>
+                        <p>联系电话：<%=item.mobile %> </p>
+                        <p>客户备注：<%=item.remark ? item.remark : '无' %></p>
+                    </div>
+                </div>
+                <div class="col-sm-2 vhc obr flex">
+                    <div class="col-sm-12" style="padding: 0;">
+                        <p>租赁金额：¥<%=item.totalamount %> </p>
+                        <p>押金金额：¥<%=item.totaldeposit %> </p>
+                        <p>优惠金额：¥<%=item.couponfee %> </p>
+                        <p>需付金额：¥<%=item.totalfee %> </p>
+                        <p>实付金额：¥<%=item.payfee %> </p>
+                    </div>
+                </div>
+                <div class="col-sm-1 vhc obr flex">
+                    <%=item.status_text%>
+                </div>
+
+                <div class="col-sm-2 vhc flex">
+                    <a href="javascript:;" class="del btn btn-xs btn-danger" style="margin-left: 10px;" data-id="<%=item.id%>"><i class="fa fa-trash"></i> 删除</a> 
+                </div>
+            </div>
+        </div>
+    </script>
+</div>
+
+<style>
+    .flex{display: flex;flex-wrap: wrap;}
+    .fixed-table-toolbar{display: none;}
+    .item-goods{border-bottom:solid 1px #e6e6e6;padding: 15px;}
+    .row{margin: 0;}
+    .item-goods:last-child{border: none;}
+    .mt-15{margin-top: 15px;}
+    .sub{padding-left: 9.7%;margin-top: 20px;}
+    .sub .btn{width: 100px;margin-right: 30px;}
+    .ctr{text-align: right;line-height: 35px;}
+    .vhc{padding: 15px;height: 100%;align-items: center;justify-content: center;}
+    .order-head{background: #f7f7f7;padding: 0px;font-weight: bold;margin-top: 5px;border:1px solid #e6e6e6;width: 100%;}
+    .order-head div{padding: 10px 15px;}
+    .item-top{background: #f7f7f7;padding: 10px;width: 100%;border: 1px solid #e6e6e6;}
+    .item-content{border: 1px solid #e6e6e6;border-top: none;}
+    .obr{border-right: 1px solid #e6e6e6;}
+    /*.fixed-table-toolbar{display: none;}*/
+</style>

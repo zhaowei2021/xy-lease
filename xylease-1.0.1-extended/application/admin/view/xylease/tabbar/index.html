@@ -1,0 +1,272 @@
+<div id="bottomNav" v-cloak>
+	
+	<div class="col-xs-6">
+		<div class="edit-attribute r">
+			<h3>导航内容设置</h3>
+			<div class="template-edit-title">
+				<ul>
+					<li class="flex rt">
+						<div>图标</div>
+						<div>标题</div>
+						<div>链接</div>
+						<div>显示</div>
+					</li>
+					<li v-for="(item,key) in tabbarList.list" class="flex">
+						
+						<div class="flex item">
+							<div class="uimg">
+								<input type="file" :ref="'iconPath'+key" :id="'iconPath'+key" accept="image/*" @change="uploadImage($event,key,1)" style="display: none;">
+								<div>
+									<label :for="'iconPath'+key">
+										<img :src="item.iconPath" :for="'iconPath'+key" />
+									</label>
+								</div>
+								<label>未选中</label>
+							</div>
+							<div class="uimg">
+								<input type="file" :ref="'selectedIconPath'+key" :id="'selectedIconPath'+key" accept="image/*" @change="uploadImage($event,key,2)" style="display: none;">
+								<div>
+									<label :for="'selectedIconPath'+key">
+										<img :src="item.selectedIconPath" :for="'selectedIconPath'+key" />
+									</label>
+								</div>
+								<label>已选中</label>
+							</div>
+						</div>
+						<div class="flex item">
+							<input type="text" class="form-control" v-model="item.title" @input="tnameInput($event,key)">
+						</div>
+						<div class="flex item">
+							<input type="text" class="form-control" v-model="item.link" placeholder="点击右侧选择按钮选择链接">
+                            <button @click="selectLink(key)" class="btn btn-success xylease-link"><i class="fa fa-link"></i> 选择 </button>
+						</div>
+						<div class="flex item">
+							<select class="form-control" v-model="item.show">
+								<option value="1">是</option>
+								<option value="0">否</option>
+							</select>
+						</div>
+						
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-xs-4">
+		<div class="edit-attribute l">
+			<div class="bottom-menu-config">
+				<h3>导航样式设置</h3>
+				<div class="template-edit-title">
+					<div>
+						<div class="form-group flex">
+							<label>背景颜色:</label>
+							<div class="form-inline">
+								<input type="text" class="form-control" v-model="tabbarList.backgroundColor"> 
+								<input id="color" class="form-control" type="color" v-model="tabbarList.backgroundColor">
+							</div>
+						</div>
+						<div class="form-group flex">
+							<label>文字颜色:</label>
+							<div class="form-inline">
+								<input type="text" class="form-control" v-model="tabbarList.textColor"> 
+								<input id="color" class="form-control" type="color" v-model="tabbarList.textColor">
+							</div>
+						</div>
+						<div class="form-group flex">
+							<label>文字选中:</label>
+							<div class="form-inline">
+								<input type="text" class="form-control" v-model="tabbarList.textHoverColor"> 
+								<input id="color" class="form-control" type="color" v-model="tabbarList.textHoverColor">
+							</div>
+						</div>
+
+						<div class="form-group flex">
+							<label>展示风格:</label>
+							<div class="form-inline">
+								<label><input v-model="tabbarList.style" type="radio" value="1" />默认风格</label> 
+								<label style="margin-left: 20px;"><input v-model="tabbarList.style" type="radio" value="2" />悬浮风格</label> 
+							</div>
+						</div>
+
+						
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		<div class="preview c">
+			<div class="preview-head"><span>底部导航</span></div>
+			<div class="preview-block">
+				<ul :style="{'background-color': tabbarList.backgroundColor}">
+					<li v-for="item in tabbarList.list">
+						<div>
+							<img :src="item.iconPath" />
+						</div>
+						<span :style="{'color': tabbarList.textColor}">{{item.title}}</span>
+					</li>
+				</ul>
+			</div>
+			<div class="custom-save">
+				<div class="btn btn-success" @click="submitFrom()"><i class="fa fa-save"></i> 保存</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+<style>
+	[v-cloak] {
+		display: none;
+	}
+
+	.flex {
+		display: flex;
+	}
+
+	ul,li{list-style: none;padding: 0; margin: 0;}
+
+	.r .rt{font-weight: bold;}
+	.r .rt div{width: 25%;text-align: center;padding: 10px 15px;}
+	.r .rt div:nth-child(2){width: 25%;}
+	.r .rt div:nth-child(4){width: 15%;}
+	.r .rt div:nth-child(3){width: 35%;}
+	.r .item{width: 25%; text-align: center;justify-content: center;align-items: center;padding: 10px 15px;}
+	.r .item:nth-child(2){width: 25%;}
+	.r .item:nth-child(4){width: 15%;}
+	.r .item:nth-child(3){width: 35%;}
+	.r .item:nth-child(2) input,.r .item:nth-child(2) select{text-align: center;}
+
+	#bottomNav .edit-attribute{position: relative;border: 1px solid #e5e5e5;border-top: none;background: #fff;}
+	.edit-attribute.l{width: 400px;margin-bottom: 16px;}
+
+	.template-edit-title{border-top: 1px #e5e5e5 solid;border-bottom: 1px #e5e5e5 solid;padding: 15px 20px 20px 10px;}
+	.form-group label{line-height: 34px;}
+	.form-group:last-child{margin-bottom: 0;}
+	.form-inline{margin-left: auto;}
+	h3{margin-bottom: 16px; padding-left: 20px;font-size: 16px;margin-top: 0;padding-top: 16px;}
+	.uimg{text-align: center;margin: 0 10px;}
+	.uimg img{width: 50px;height: 50px;}
+
+	#color {
+        width: 31px;
+        height: 31px;
+        background-color: #fff;
+        cursor: default;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-image: initial;
+        padding: 0;
+    }
+
+	#bottomNav {
+		position: relative;
+		overflow: hidden;
+		padding-right: 20px; padding-top: 20px;
+	}
+
+	#bottomNav .preview {
+		width: 400px;
+		background-repeat: no-repeat;
+		background-size: 100%;
+		float: left;
+	}
+
+	#bottomNav .preview .preview-head {
+		position: relative;
+		background-color: #f05656;
+		height: 83px;
+	}
+
+	#bottomNav .preview .preview-head>span {
+		color: #ffffff;
+		font-size: 16px;
+		display: block;
+		text-align: center;
+		margin-left: 50px;
+		height: 40px;
+		line-height: 40px;
+		margin-right: 70px;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		cursor: pointer;
+		padding-top: 38px;
+	}
+
+	#bottomNav .preview .preview-block {
+		border-left: 1px solid #e5e5e5;
+		border-right: 1px solid #e5e5e5;
+		border-bottom: 1px solid #e5e5e5;
+		min-height: 100px;
+		position: relative;
+	}
+
+	#bottomNav .preview .preview-block {
+		border-left: 1px solid #e5e5e5;
+		border-right: 1px solid #e5e5e5;
+		border-bottom: 1px solid #e5e5e5;
+		min-height: 100px;
+		position: relative;
+	}
+
+	.preview-block ul {
+		overflow: hidden;
+		display: flex;
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+		border-top: 1px solid #e5e5e5;
+		margin: 0;
+		padding: 0;
+	}
+
+	.preview-block ul li {
+		text-align: center;
+		flex: 1;
+		margin: 5px 0;
+		list-style: none;
+	}
+
+	.preview-block ul li>div {
+		height: 30px;
+		line-height: 30px;
+		width: 30px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin: 0 auto;
+	}
+
+	.preview-block ul li>div>div {
+		height: 20px;
+		width: 20px;
+	}
+
+	.preview-block ul li>div.js-icon {
+		font-size: 20px
+	}
+
+	.preview-block ul li img {
+		width: 20px;
+		max-height: 100%;
+	}
+
+	.preview-block ul li span {
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		display: block;
+	}
+
+	.preview-block ul li .icon-wrap {
+		font-size: 20px
+	}
+
+	.custom-save {
+		margin-top: 20px;
+		padding: 0;
+		width: 400px;
+		text-align: center;
+	}
+</style>

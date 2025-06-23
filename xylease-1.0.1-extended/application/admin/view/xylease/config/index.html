@@ -1,0 +1,25 @@
+<div class="panel panel-default panel-intro" id="configIndex" v-cloak>
+    <div class="panel-heading">
+        <ul class="nav nav-tabs">
+            <li :class="activeName=='basic'?'active':''" @click="tabClick('basic')"><a>基础配置</a></li>
+            <li :class="activeName=='platform'?'active':''" @click="tabClick('platform')"><a>平台配置</a></li>
+            <li :class="activeName=='payment'?'active':''" @click="tabClick('payment')"><a>支付配置</a></li>
+        </ul>
+    </div>
+    
+    <div class="panel-body">
+        <div class="col-sm-4 col-md-3" v-for="item in configData[activeName]">
+            <div class="config-item">
+                <div class="config-title">{{item.title}}</div>
+                <div class="config-tip">{{item.tip}}</div>
+                <div class="btn btn-success" @click="operation(item.id,item.title)">设置</div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    [v-cloak] {display: none;}
+    .config-item{padding: 20px;margin-bottom: 20px;border: solid 1px #e8edf0;}
+    .config-item .config-title{font-size: 20px;font-weight: bold;}
+    .config-item .btn{margin: 20px 0 0 80%;}
+</style>

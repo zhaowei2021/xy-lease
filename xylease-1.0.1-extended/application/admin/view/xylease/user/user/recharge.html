@@ -1,0 +1,37 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="row mt-15">
+        <label class="control-label col-xs-12 col-sm-2">当前余额:</label>
+        <div class="col-xs-12 col-sm-8">
+            <p style="line-height: 34px;">
+                {$row.money|htmlentities}
+            </p>
+        </div>
+    </div>
+    <div class="row mt-15">
+        <label class="control-label col-xs-12 col-sm-2">调整数额:</label>
+        <div class="col-xs-12 col-sm-6">
+            <input id="c-num" data-rule="required" class="form-control" name="row[num]" type="number">
+        </div>
+        <label class="control-label col-xs-12 col-sm-2">负数为减少余额</label>
+    </div>
+    
+    <div class="row mt-15">
+        <label class="control-label col-xs-12 col-sm-2">备注:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-remark" class="form-control" rows="4" name="row[remark]" cols="50"></textarea>
+        </div>
+    </div>
+    
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>
+
+<style>
+    .mt-15{margin-top: 15px;}
+</style>
